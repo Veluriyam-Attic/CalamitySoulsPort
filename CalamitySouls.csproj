@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="D:\STEAM\steamapps\common\tModLoader\tMLMod.targets" />
+  <PropertyGroup>
+    <AssemblyName>CalamitySouls</AssemblyName>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <!-- 迭代阶段：只编译，不打包 -->
+    <BuildMod>false</BuildMod>
+    <NoWarn>CS0618;CS0672;CS1030;CS1591;CS0105</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CalamityMod">
+      <HintPath>D:\ai\port\refs\CalamityMod.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

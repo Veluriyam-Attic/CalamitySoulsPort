@@ -1,0 +1,1244 @@
+using CalamityMod;
+using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.CalPlayer;
+using CalamityMod.World;
+using CalamitySouls.Content.V104.Buffs;
+using CalamitySouls.Content.V104.Projectiles;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamitySouls.Content.V104
+{
+	// ============================================================================
+	// 「CalamitySouls v1.0.4.0（新版）」效果层 —— 与旧版 CSPlayerEffects 完全隔离
+	// （旧版 CSPlayer/CSPlayerEffects 一个字都没动）
+	//
+	// 本阶段先接上**5 颗全新魔石**的效果（用户指定的最高优先级）：
+	//   圣蚀 EnchAcidivine / 星流 EnchExo / 绝灭 EnchExtermination / 禁戒 EnchForbidden / 星光 EnchLuxAstri
+	// 其余 29 颗「同名但效果重做」的魔石仍在排期（见报告）。
+	// ============================================================================
+	public static class CSPlayerV104Effects
+	{
+		public static void PostUpdateEquips(Player player)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			if (mplayer.EnchAcidivine) mplayer.AcidivineCircle = true;
+			if (mplayer.EnchExo) mplayer.ExoShield = true;
+			if (mplayer.EnchExtermination) mplayer.ExterminationGravity = true;
+			if (mplayer.EnchForbidden) mplayer.ForbiddenNerfCancel = true;
+			if (mplayer.EnchLuxAstri)
+			{
+				mplayer.LuxAstriPunch = true;
+				LuxAstriAttack(player, mplayer);
+			}
+			// 沙漠游侠：武器面板 +5（对应新版 ModifyWeaponDamage 里的 flat += 5f）
+			if (mplayer.EnchDesert) mplayer.DesertProwler = true;
+			// 泰坦之心：非穿透主要弹幕消失时造成震荡（实现在 CSProjectileV104.OnKill）
+			if (mplayer.EnchTitan) mplayer.TitanExplosion = true;
+			// 胜潮：击中敌人召唤小海星（实现在 CSProjectileV104.OnHitNPC）
+			if (mplayer.EnchVictide) mplayer.VictideStarfish = true;
+			// 神惧者：抵消召唤伤害衰减 + 大幅生命回复
+			// （新版还有"时间冻结"，需要着色器，【已订正】着色器资源在 1.3 发布包中存在（FearmongerEffect.fx 1508B + .xnb 3764B + FearmongerTimeFreezeScreenShader.cs 660B + FearmongerTimeFreezeSky.cs 6785B）⇒ 已列入补做）
+			if (mplayer.EnchFearmonger)
+			{
+				mplayer.FearmongerNerfCancel = true;
+				player.lifeRegen += 14;
+				player.lifeRegenTime += 7;
+				if (player.lifeRegenTime < 1800) player.lifeRegenTime = 1800;
+			}
+			// 瘟疫收割者：受击时释放当前肾上腺素而不是清空
+			// [已订正 2026-10-03] 视野短暂模糊变暗【已实现】：即 Filters.Scene["CalamitySouls:Blind"] 屏幕滤镜
+			//   （Effects/BlindRegister.cs 注册 + Effects/BlindScreenShader.cs，激活点见 CSPlayerV104.PreUpdateBuffs）
+			if (mplayer.EnchPlagueReaper) mplayer.PlagueReaperAdrenaline = true;
+			// 欧米伽蓝：敌人护甲越高你伤害越高（[已订正 2026-10-03] 触手弹幕 OmegaTenacleV104 已实现，生成点见本文件 :137）
+			if (mplayer.EnchOmega)
+			{
+				mplayer.OmegaTouch = true;
+				mplayer.OmegaDefenseBreak = true;
+			}
+			// 硫磺：攻击造成辐射 + 周围酸海剧毒区域
+			// （辐射在 CSProjectileV104/ModifyHitNPCWithItem 里落地；区域弹幕在这里每帧维持 1 个）
+			if (mplayer.EnchSulphurous)
+			{
+				mplayer.SulphurousPoison = true;
+				mplayer.SulphurousCircle = true;
+				if (player.ownedProjectileCounts[ModContent.ProjectileType<SulphurousAreaV104>()] < 1)
+				{
+					Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero,
+						ModContent.ProjectileType<SulphurousAreaV104>(), 0, 0f, player.whoAmI);
+				}
+			}
+			// 渊泉：周围环绕高伤害日炎环（实现在 PostUpdateMiscEffects）+ 所有武器附带火焰属性
+			if (mplayer.EnchHydrothermic)
+			{
+				mplayer.HydrothermicSolarCircle = true;
+				mplayer.HydrothermicFireWeapon = true;
+			}
+			// 掠夺者：热键切换 3 档效果（1.3 逐值照搬；另外第 4 档 = 三系全开，由 CreatureEffect 设置）
+			if (mplayer.EnchReaver)
+			{
+				mplayer.ReaverEffect = true;
+				if (mplayer.ReaverEffectSelect > 2) mplayer.ReaverEffectSelect = 0;
+				switch (mplayer.ReaverEffectSelect)
+				{
+					case 0:
+						mplayer.ReaverDefense = true;
+						break;
+					case 1:
+						mplayer.ReaverSpeed = true;
+						if (player.miscCounter % 2 == 1 && player.dashDelay > 0) player.dashDelay--;
+						break;
+					case 2:
+						mplayer.ReaverExplore = true;
+						player.pickSpeed += 0.5f;
+						player.tileSpeed += 0.5f;
+						player.wallSpeed += 0.5f;
+						player.blockRange += 5;
+						break;
+					case 3:
+						mplayer.ReaverDefense = true;
+						mplayer.ReaverSpeed = true;
+						if (player.miscCounter % 2 == 1 && player.dashDelay > 0) player.dashDelay--;
+						mplayer.ReaverExplore = true;
+						player.pickSpeed += 0.5f;
+						player.tileSpeed += 0.5f;
+						player.wallSpeed += 0.5f;
+						player.blockRange += 5;
+						break;
+				}
+				// 1.3 CSPlayerEffects.cs:316（原在方法后段）—— 结构保真补齐 ✗ 原本缺失
+				// ⚠️ 1.3 中此行的"三系全开"经静态分析确认【永不生效】：下一帧 :227 的无条件 `> 2 ⇒ 0` 会先把它清掉，
+				//    而 :228 的 switch 永远看到 0 ⇒ case 3 是上游死代码。本移植照 1.3 原样保留（同样不可达）。
+				if (mplayer.CreatureEffect) mplayer.ReaverEffectSelect = 3;
+				CalamityPlayer rc = player.GetModPlayer<CalamityPlayer>();
+				// 探索档附加：洞穴黑暗归零
+				// 1.3 had: rc.caveDarkness = 0f;  -- Calamity 2.x removed CalamityPlayer.caveDarkness
+				// (candidates abyssDarkness / darknessIntensity have different semantics) => NOT mapped, see report diff table
+				// 防御档：抵消负面生命回复（1.3：酒精中毒时不生效）
+				if (mplayer.ReaverDefense && !rc.alcoholPoisoning && player.lifeRegen < 0) player.lifeRegen = 0;
+			}
+			// 魔影：新版只剩"按热键使用黑魔咒激怒所有生物 10 秒"一条，而 1.3 里该效果由
+			// 灾厄本体的 TarraHotKey（龙蒿套装热键）提供、本 mod 只引用了它的文案；
+			// 灾厄 2.x 已移除该热键 ⇒ 无代码可搬，故不实现（见报告差异表）。
+			// 这里刻意不设置任何标记，避免造成"看似有实现"的假象。
+			// 弑神者：热键 H 冲刺（1.3 EnchActivateEnch:184-187 + 链 :108）
+			// 链：EnchGodslayer → EnchAerospec（天蓝）—— 天蓝已实现 ✓
+			if (mplayer.EnchGodslayer)
+			{
+				mplayer.GodslayerDash = true;
+				mplayer.EnchAerospec = true;
+				// 1.3 CSPlayerEffects:318：弑神者存在时关闭天蓝冲刺（避免两个冲刺键冲突）
+				mplayer.AeroJump = false;
+			}
+			// 欧米伽蓝：触手护卫（1.3 CSPlayerEffects:420-434 逐字照搬）
+			if (mplayer.OmegaTouch && player.whoAmI == Main.myPlayer)
+			{
+				int touch = ModContent.ProjectileType<OmegaTenacleV104>();
+				if (player.ownedProjectileCounts[touch] < 6)
+				{
+					foreach (Projectile proj in Main.projectile)
+					{
+						if (proj.active && proj.type == touch && proj.owner == player.whoAmI) proj.Kill();
+					}
+					for (int i = 0; i < 8; i++)
+					{
+						if (i % 4 == 0) continue;
+						Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, touch,
+							HeldDamage(player, 1000f), 5f, player.whoAmI, 0, MathHelper.ToRadians(i * 360f / 8f + 90));
+					}
+				}
+			}
+
+			// 钨钢：力场（1.3 CSPlayerEffects:311）
+			if (mplayer.EnchWulfrum) mplayer.WulfrumField = true;
+			// 软壳：浸水（1.3 CSPlayerEffects.cs:202-205 逐值）
+			if (mplayer.EnchMollusk) mplayer.MolluskDrown = true;
+			if (mplayer.ForceRevolution)
+			{
+				mplayer.RevolutionEffect = true;
+				mplayer.EnchSnowRuffian = true;   // 1.3 捆绑激活
+				mplayer.EnchStatigel = true;   // 1.3 捆绑激活
+				mplayer.EnchForbidden = true;   // 1.3 捆绑激活
+				mplayer.EnchDaedalus = true;   // 1.3 捆绑激活
+				mplayer.EnchTarragon = true;   // 1.3 捆绑激活
+				mplayer.EnchSilva = true;   // 1.3 捆绑激活
+				// [补缺口 2026-10-10] 起义之力应召唤「迷你史莱姆神」：
+				// 旧版 CSPlayerEffects.cs:349 在魔石生效时置 StatigelSgod = true，
+				// 生成代码（CSPlayerEffects.cs:508-513）读的正是它；V104 路径没设 ⇒ 仆从永不出现。
+				player.CS().StatigelSgod = true;
+			}
+			// 革命之力：1.3 CSPlayerEffects.cs:83（本体已在 ForceRevolution.UpdateAccessory 里置 ForceRevolution ✓ 这里只接效果标记）
+			// 影响：始源林海复活代价走 0.85/0.2 分支（1.3 CSPlayer.cs:264-265）；达罗斯水晶的 Revolution 分支
+			if (mplayer.ForceTyranny)
+			{
+				mplayer.TyrannyEffect = true;
+				mplayer.EnchEmpyrean = true;   // 1.3 捆绑激活
+				mplayer.EnchGodslayerAncient = true;   // 1.3 捆绑激活
+				mplayer.EnchGodslayer = true;   // 1.3 捆绑激活
+				mplayer.EnchAuric = true;   // 1.3 捆绑激活
+				mplayer.EnchDemonshade = true;   // 1.3 捆绑激活
+			}
+			// 暴政之力：1.3 CSPlayerEffects.cs:94 —— 影响弑神者冲刺伤害走 1450 分支（1.3 CSPlayer.cs:440）
+			// ForceAnnihilation 的捆绑激活（1.3 CSPlayerEffects.cs，从源码精确提取 7 项）
+			// ⭐ [补缺口 2026-10-10] 湮灭之力：召唤 4 个「湮灭子机」为你而战
+			// 1.3 原文：CSPlayerEffects.UpdateAccMinions:441-453（逐字照搬）
+			// 之前新版只设了 AnnihilationEffect 标志 ✗ 但生成代码读的是 AnnihilationOption ✗
+			// ⇒ 导致 tooltip 写了"迷你至尊灾厄为你而战"却永远不生效（玩家反馈 ✓）
+			if (mplayer.ForceAnnihilation)   // AnnihilationOptionV104Port
+				// ⭐ [关键修复 2026-10-10] 子机自己的 AI（AnnihilationOption.cs:39）检查的是
+				// player.CS().AnnihilationOption（旧玩家类的标志 ✗）。V104 路径不设它 ⇒ 子机
+				// 第一帧就自杀 ⇒ ownedProjectileCounts 永远 < 4 ⇒ 每帧重复生成 4 个
+				// ⇒ 表现为"音效循环 + 满屏红色粉尘爆炸"（玩家实测 ✓）。这里同步置真即可。
+				player.CS().AnnihilationOption = true;
+			{
+				int option = ModContent.ProjectileType<global::CalamitySouls.Projectiles.AnnihilationOption>();
+				if (player.ownedProjectileCounts(option) < 4)
+				{
+					for (int i = 0; i < Main.projectile.Length; i++)
+					{
+						Projectile killoption = Main.projectile[i];
+						if (killoption.active && killoption.type == option && killoption.owner == player.whoAmI)
+							killoption.Kill();
+					}
+					for (int i = 0; i < 4; i++)
+						Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, option, 0, 0f, player.whoAmI, 0, i * 60);
+				}
+			}			if (mplayer.ForceAnnihilation)
+			{
+				mplayer.AnnihilationEffect = true;   // 1.3 捆绑激活
+				mplayer.EnchLuxAstri = true;   // 1.3 捆绑激活
+				mplayer.EnchHydrothermic = true;   // 1.3 捆绑激活
+				mplayer.EnchExtermination = true;   // 1.3 捆绑激活
+				mplayer.EnchAstral = true;   // [CORRECTED 2026-10-03] EnchAstral IS IMPLEMENTED (consumers: this file:226 + AstralSatelliteMinionV104 + FallenAstralStarV104). Old note was OUTDATED.
+				mplayer.EnchBloodFlare = true;   // 1.3 捆绑激活
+				mplayer.EnchFearmonger = true;   // 1.3 捆绑激活
+			}
+			// ForceCreature 的捆绑激活（1.3 CSPlayerEffects.cs，从源码精确提取 6 项）
+			if (mplayer.ForceCreature)
+			{
+				mplayer.CreatureEffect = true;   // 1.3 捆绑激活
+				mplayer.EnchMollusk = true;   // 1.3 捆绑激活
+				mplayer.EnchAcidivine = true;   // 1.3 捆绑激活
+				mplayer.EnchFathom = true;   // [CORRECTED 2026-10-03] EnchFathom IS IMPLEMENTED (consumers: this file:278 + FathomFishV104). Old note was OUTDATED.
+				mplayer.EnchReaver = true;   // 1.3 捆绑激活
+				mplayer.EnchOmega = true;   // 1.3 捆绑激活
+			}
+			// ForceTechnical 的捆绑激活（1.3 CSPlayerEffects.cs，从源码精确提取 6 项）
+			if (mplayer.ForceTechnical)
+			{
+				mplayer.TechnicalEffect = true;   // 1.3 捆绑激活
+				mplayer.EnchWulfrum = true;   // 1.3 捆绑激活
+				mplayer.EnchPlagueReaper = true;   // 1.3 捆绑激活
+				mplayer.EnchPlagueBringer = true;   // 1.3 捆绑激活
+				mplayer.EnchPrismatic = true;   // 1.3 捆绑激活
+				mplayer.EnchExo = true;   // 1.3 捆绑激活
+			}
+// 皇天：跨魔石链 → 日影（1.3 CSPlayerEffects.cs:106 逐字）
+			if (mplayer.EnchEmpyrean) mplayer.EnchUmbraphile = true;
+			// 皇天幻影：召唤（1.3 CSPlayerEffects.cs:359-366 逐字）
+			//   1.3 用专设标记 player.CS().EmpyreanSpectre（CSPlayerEffects:155-158 仅由 EnchEmpyrean 置真）
+			//   ⇒ 与 EnchEmpyrean 等价 ✓（第 2 轮记下的待核对项，此处结案）
+			if (mplayer.EnchEmpyrean)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					if (player.ownedProjectileCounts[ModContent.ProjectileType<EmpyreanSpectreV104>()] < 1)
+						Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<EmpyreanSpectreV104>(), 0, 0f, player.whoAmI);
+				}
+			}
+// 幻星：激活（1.3 CSPlayerEffects.cs:123-127 逐字）
+			if (mplayer.EnchAstral)
+			{
+				mplayer.AstralFallingStar = true;
+				mplayer.AstralSatellite = true;   // 卫星本体（AstralSatelliteMinion）尚待移植 ⇒ 见差异表
+			}
+			// 龙蒿 8 叶效果 [1]：生命光环 —— 计数器与视觉（1.3 CSPlayerEffects.cs:1107-1121 逐字）
+			if (mplayer.TarragonLeafEffects[1] > 0)
+			{
+				CalamityPlayer tarraCp = player.Calamity();
+				tarraCp.tarraLifeAuraTimer = (tarraCp.tarraLifeAuraTimer + 1) % 30;
+				if (tarraCp.tarraLifeAuraTimer == 0)
+				{
+					for (int i = 0; i < 120; i++)
+					{
+						Dust auraVisual = Dust.NewDustPerfect(player.Center + MathHelper.ToRadians(i * 3f).ToRotationVector2() * 300f, DustID.DryadsWard);   // 1.3: CSUtils.ToDegreesVector2(i, 3f)
+						auraVisual.noGravity = true;
+						auraVisual.noLight = true;
+						auraVisual.velocity = Vector2.Zero;
+						auraVisual.scale = 1.5f;
+					}
+				}
+			}
+			// 龙蒿 8 叶效果 [1]：生命光环 —— 对 300f 内敌人补一发（1.3 CSPlayerEffects.cs:940-941 逐字）
+			if (mplayer.TarragonLeafEffects[1] > 0 && player.Calamity().tarraLifeAuraTimer == 0 && player.whoAmI == Main.myPlayer)
+			{
+				foreach (NPC tarraNpc in Main.npc)
+				{
+					if (!tarraNpc.active || tarraNpc.friendly || tarraNpc.dontTakeDamage) continue;
+					if (tarraNpc.Distance(player.Center) > 300f) continue;
+					Projectile.NewProjectileDirect(player.GetSource_FromThis(), tarraNpc.Center, Vector2.Zero,
+						ModContent.ProjectileType<CalamityMod.Projectiles.Typeless.DirectStrike>(),
+						CSPlayerV104Effects.HeldDamage(player, 500f), 0f, player.whoAmI, -1);
+					// ⚠️ 经完整 read 1.3 :925-950 确认：该分支在逐 NPC 循环内且【无 break】⇒ 每个 300f 内敌人各打一发 ✓（我原先加的 break 属偏差，已删除 ✓）
+				}
+			}
+			// 龙蒿：激活（1.3 CSPlayerEffects.cs:278-282 逐字）
+			if (mplayer.EnchTarragon)
+			{
+				mplayer.TarragonLeaf = true;
+				mplayer.TarragonImmunity = true;
+			}
+			// 龙蒿 8 叶效果：每帧类（1.3 CSPlayerEffects.cs:1122-1123 逐字）
+			if (mplayer.TarragonLeafEffects[4] > 0 && player.miscCounter == 0) player.HealLife(38);
+			if (mplayer.TarragonLeafEffects[7] > 0 && player.miscCounter % 60 == 0) player.HealMana(38 * 5);
+// 幻星：卫星召唤（1.3 CSPlayerEffects.cs:325-330 逐字）
+			if (mplayer.AstralSatellite)
+			{
+				int satellite = ModContent.ProjectileType<AstralSatelliteMinionV104>();
+				if (player.ownedProjectileCounts[satellite] < 1 && player.whoAmI == Main.myPlayer)
+					Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, satellite, 200, 10f, player.whoAmI, 500f);
+			}
+			// 幻渊鱼群：链 + 深渊呼吸恢复（1.3 CSPlayerEffects.cs:167-171 逐字）
+			if (mplayer.EnchFathom)
+			{
+				if (player.Calamity().ZoneAbyss && player.breath < player.breathMax) player.breath++;   // 1.3: cplayer.ZoneAbyss
+				mplayer.FathomFish = true;
+			}
+			// 幻渊鱼群：召唤 7 条小鱼（1.3 CSPlayerEffects.cs:367-390 逐字）
+			if (mplayer.FathomFish)
+			{
+				int fish = ModContent.ProjectileType<FathomFishV104>();
+				int fishes = mplayer.CreatureEffect ? 1 : 7;
+				if (player.ownedProjectileCounts[fish] < fishes)
+				{
+					SoundEngine.PlaySound(SoundID.NPCDeath19, player.Center);
+					for (int i = 0; i < 18; i++)
+					{
+						Vector2 rot = MathHelper.ToRadians(360 * i / 18f).ToRotationVector2();
+						Dust dust = Dust.NewDustPerfect(player.Center, 89);
+						dust.noGravity = true;
+						dust.velocity = rot * 3f;
+						dust.scale *= 2f;
+					}
+					if (player.whoAmI == Main.myPlayer)
+					{
+						foreach (Projectile proj in Main.projectile)
+							if (proj.type == fish && proj.owner == player.whoAmI) proj.Kill();
+						for (int i = 0; i < fishes; i++)
+							Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Main.rand.NextVector2Unit() * 20f, fish, 0, 0f, player.whoAmI);
+					}
+				}
+			}
+			// 神惧者：允许按 K 冻结时间（1.3 CSPlayerEffects:178）
+			if (mplayer.EnchFearmonger) mplayer.FearmongerCanStopTime = true;
+			// 始源林海：死亡时复活，但每次复活都要付出代价（1.3 EnchActivateEnch:256-259 逐值）
+			if (mplayer.EnchSilva) mplayer.SilvaRevive = true;
+			// 弑神者·古：暗影 + 受击传送闪避（1.3 EnchActivateEnch:188-191 逐值）
+			if (mplayer.EnchGodslayerAncient)
+			{
+				mplayer.gsaShadow = true;
+				mplayer.GodslayerAncientTeleport = true;
+			}
+			// 光棱：环绕棱镜（1.3 UpdateAccMinions:447-452 逐字照搬）
+			// 跨魔石链：1.3 EnchActivateEnch:110 -> EnchPrismatic 会连带激活 EnchWulfrum（微光石）
+			//    [CORRECTED 2026-10-03] Wulfrum self-effect IS ALREADY IMPLEMENTED (WulfrumField: light + enemy knockback
+			//      + projectile clearing r=70 + 15s recharge cooldown; see CSPlayerV104Effects 137/480/548/566).
+			//      The old note claiming "not yet implemented" was OUTDATED. Kept for traceability.
+			if (mplayer.EnchPrismatic)
+			{
+				mplayer.PrismaticPrism = true;
+				mplayer.EnchWulfrum = true;
+				int prism = ModContent.ProjectileType<PrismaticPrismProjV104>();
+				if (player.ownedProjectileCounts[prism] < 1 && player.whoAmI == Main.myPlayer)
+					Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, prism, 0, 0f, player.whoAmI);
+			}
+			// 血炎：热键"释放迷失灵魂" + 附带硫火效果 + 强化灾厄宠物
+			// 1.3 EnchActivateEnch:105 -> 血炎会连带激活 EnchBrimFlame（即"附带硫火效果"）
+			if (mplayer.EnchBloodFlare)
+			{
+				mplayer.BloodflareLostSouls = true;
+				mplayer.BloodflareCalPetBuff = true;
+				mplayer.EnchBrimFlame = true;
+			}
+			// 血炎：强化灾厄宠物（1.3 UpdateAccMinions:345-350 逐字照搬）
+			// ⚠️ 注意：1.3 新版源码里 BrimCalPet 只被"重置为 false"和"读取"，**没有任何地方把它置 true**
+			//    ⇒ 该分支在新版 1.3 里同样永远不会执行（宠物在 1.3 新版里也不出场）→ 本移植保持逐字一致，不自行添加赋值
+			if (mplayer.BrimCalPet)
+			{
+				int CalType = ModContent.ProjectileType<CalPetV104>();
+				if (player.whoAmI == Main.myPlayer && player.ownedProjectileCounts[CalType] < 1)
+					Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, CalType, 0, 0f, player.whoAmI);
+			}
+			// 新版硫火的激活：目前只接血炎所依赖的 CanBrimFrenzy（硫火魔石自身的其余效果属于它那一颗，后续单独补）
+			if (mplayer.EnchBrimFlame)
+			{
+				mplayer.CanBrimFrenzy = true;
+			}
+			// 瘟疫使者：每隔 300 帧自动发射追踪瘟疫核弹
+			// （1.3 还有 cplayer.dashMod = 8 的"瘟疫冲刺"，但该字段在灾厄 2.x 已移除 ⇒ 无等价物，见差异表）
+			if (mplayer.EnchPlagueBringer)
+			{
+				mplayer.PlagueBringerNuke = true;
+				if (mplayer.PlagueBringerNukeCD == 0)
+				{
+					if (player.whoAmI == Main.myPlayer)
+						Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, -Vector2.UnitY * 10f,
+							ModContent.ProjectileType<PlaguebringerNukeV104>(), 100, 0f, player.whoAmI);
+					// 1.3: Cal.GetLegacySoundSlot(...PBGBarrageLaunch).Volume /= 2f
+					// 已核实 2.x tmod 内存在该资源 → 用 SoundStyle + Volume 0.5 照 1.3 播
+					SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/PlagueSounds/PBGBarrageLaunch") { Volume = 0.5f }, player.Center);
+					mplayer.PlagueBringerNukeCD = 300;
+				}
+			}
+			// 天蓝：热键"天蓝冲刺"（1.3 的召唤天蓝刃与暴击惩罚已由作者删除）
+			if (mplayer.EnchAerospec) mplayer.AeroJump = true;
+			// 斯塔提斯：生成擦弹区域，擦到敌人/弹幕就给短暂无敌帧与伤害提升
+			if (mplayer.EnchStatigel) mplayer.StatigelArea = true;
+			// 代达罗斯：受伤闪避 + 一圈追踪水晶（1.3：CD 由 45 秒改为 60 秒）
+			// （1.3 还有一条"免疫极端重力"，但灾厄 2.x 已移除该减益 ⇒ 无对应物可免疫，自然失效，见差异表）
+			if (mplayer.EnchDaedalus)
+			{
+				mplayer.DaedalusEvade = true;
+				mplayer.DaedalusCrystal = true;
+				if (player.whoAmI == Main.myPlayer
+					&& player.ownedProjectileCounts[ModContent.ProjectileType<DaedalusTrueCrystalV104>()] < 1)
+				{
+					Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero,
+						ModContent.ProjectileType<DaedalusTrueCrystalV104>(), HeldDamage(player, 200f), 0f, Main.myPlayer);
+				}
+			}
+			// 金源：每隔一段时间自动释放金源冲击波（1.3 UpdateAccMinions:331-344 逐值照搬）
+			if (mplayer.EnchAuric)
+			{
+				mplayer.AuricFlash = true;
+				if (!mplayer.AuricFlashCooldown && player.whoAmI == Main.myPlayer)
+				{
+					// 1.3: Main.PlaySound(SoundID.Zombie, player.Center, 67) —— legacy；4 的 SoundID 已无 Zombie → 用 SoundID.Item14（差异表已记录）
+					SoundEngine.PlaySound(SoundID.Item14, player.Center);
+					Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero,
+						ModContent.ProjectileType<AuricFlashProjV104>(), 0, 0f, player.whoAmI);
+					float rndAng = Main.rand.NextFloat(MathHelper.TwoPi);
+					for (int i = 0; i < 15; i++)
+					{
+						Vector2 dir = (MathHelper.ToRadians(i * 360f / 15f) + rndAng).ToRotationVector2();
+						Projectile fkU = Projectile.NewProjectileDirect(player.GetSource_FromThis(), player.Center + dir * 32f, dir * 1f,
+							ModContent.ProjectileType<CalamityMod.Projectiles.Rogue.DragonShit>(), HeldDamage(player, 5000f), 10f, player.whoAmI);
+						// 1.3: fkU.Calamity().forceTypeless = true;（2.x 已无 forceTypeless）
+						// 2.x 等价：ForceClassless() 让弹幕不计入任何职业加成
+						fkU.ForceClassless();
+					}
+					player.AddBuff(ModContent.BuffType<Buffs.AuricFlashCooldownBuffV104>(), 10 * 60);
+				}
+			}
+			// 日影：10 秒不用物品获得"遁于暗影"，并可闪避一次攻击
+			// （1.3 里那段"半影药水生效中才加速潜行生成"的分支未实现：灾厄 2.x 已整体移除半影药水
+			//   及其 CalamityPlayer.penumbra 标志，前提不可能成立 ⇒ 分支自然失效，见报告差异表）
+			if (mplayer.EnchUmbraphile) mplayer.CanUmbraphileShealth = true;
+			// 雪境暴徒：空中时增加水平移速与加速度 + 冰冻周围敌人
+			if (mplayer.EnchSnowRuffian)
+			{
+				if (player.velocity.Y != 0f)
+				{
+					mplayer.MyAccelerationMult *= 1.2f;
+					mplayer.MyMoveSpeedMult *= 1.2f;
+				}
+				mplayer.SnowFreeze = true;
+			}
+		}
+
+		// 沙漠游侠：+5 武器面板（沿用新版语义：只对非弹药物品生效）
+		public static void ModifyWeaponDamage(Player player, Item item, ref StatModifier damage)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			if (mplayer.DesertProwler && item.ammo <= 0) damage.Flat += 5f;
+			// 渊泉：让所有武器附带火焰属性（1.3 逐值：fireball +0.05、cinnamonRoll +0.1、上限 0.125）
+			if (mplayer.HydrothermicFireWeapon && item.damage > 0)
+			{
+				CalamityPlayer cplayer = player.GetModPlayer<CalamityPlayer>();
+				float fireMult = 0f;
+				if (cplayer.fireball) fireMult += 0.05f;
+				if (cplayer.cinnamonRoll) fireMult += 0.1f;
+				if (fireMult > 0.125f) fireMult = 0.125f;
+				damage *= 1f + fireMult;
+			}
+		}
+
+		// ===== 新版 CSUtils 里的三个 helper（2.x / 现有移植工程里没有，加在 V104 侧以免动旧代码）=====
+		public static Vector2 ToDegreesVector2(float num, float mult = 1f, float add = 0f)
+			=> MathHelper.ToRadians(num * mult + add).ToRotationVector2();
+		public static Vector2 DirectionFromSafe(Entity entity, Vector2 pos)
+		{
+			Vector2 v = entity.DirectionFrom(pos);
+			if (v.HasNaNs()) v = Vector2.Zero;
+			return v;
+		}
+		public static Vector2 DirectionToSafe(Entity entity, Vector2 pos)
+		{
+			Vector2 v = entity.DirectionTo(pos);
+			if (v.HasNaNs()) v = Vector2.Zero;
+			return v;
+		}
+		public static NPC RealNPC(NPC npc) => npc.realLife >= 0 ? Main.npc[npc.realLife] : npc;
+
+		// 雪境暴徒等对移速/加速度的乘子，统一在这里落到玩家身上
+		public static void PostUpdateRunSpeeds(Player player)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			AeroDashMovement(player, mplayer);
+			GodslayerDashMovement(player, mplayer);
+			player.runAcceleration *= mplayer.MyAccelerationMult;
+			// [设置] 玩家可关闭移速加成（最终形态移速过快时使用）
+			if (!CSToggle.DisableSoulSpeed)
+			{
+				player.accRunSpeed *= mplayer.MyMoveSpeedMult;
+				player.maxRunSpeed *= mplayer.MyMoveSpeedMult;
+			}
+		}
+
+		// 点到矩形的距离（1.3 灾厄 CSUtils.DistFromRectan 的等价实现，2.x 已无此扩展）
+		public static float DistFromRectan(Vector2 point, Rectangle rect)
+		{
+			float dx = System.Math.Max(rect.Left - point.X, System.Math.Max(0f, point.X - rect.Right));
+			float dy = System.Math.Max(rect.Top - point.Y, System.Math.Max(0f, point.Y - rect.Bottom));
+			return (float)System.Math.Sqrt(dx * dx + dy * dy);
+		}
+
+		// ---- 星光魔石：攻击时在身前打出白金之拳（对应新版 UpdateAccMinions 里的 LuxAstriPunch 段）----
+		private static void LuxAstriAttack(Player player, CSPlayerV104 mplayer)
+		{
+			bool holdingNothing = player.HeldItem.IsAir;
+			if (!((player.itemAnimation > 0 && player.miscCounter % 5 == 0)
+				|| (holdingNothing && player.controlUseItem && player.miscCounter % 2 == 0))) return;
+
+			SoundEngine.PlaySound(SoundID.NPCHit15, player.Center);
+			if (holdingNothing)
+			{
+				player.itemAnimation = 2;
+				player.direction = Main.MouseWorld.X - player.Center.X > 0f ? 1 : -1;
+			}
+			if (player.whoAmI != Main.myPlayer) return;
+			int dmg = HeldDamage(player, mplayer.AnnihilationEffect ? 250f : 25f);
+			for (int i = 0; i < 2; i++)
+			{
+				Vector2 randpos = new Vector2(Main.rand.Next(20, 61), Main.rand.Next(10, 91));
+				float poslength = 3 * randpos.X + 2 * randpos.Y;
+				if (poslength > 480f) randpos /= 2f;
+				if (Main.rand.Next(2) == 0) randpos.X *= -1;
+				if (Main.rand.Next(2) == 0) randpos.Y *= -1;
+				if (i == 0) randpos *= -1;
+				Projectile.NewProjectile(player.GetSource_FromThis(), player.Center + randpos,
+					player.DirectionTo(Main.MouseWorld) * 16f, ModContent.ProjectileType<LuxAstriPunchV104>(),
+					dmg, 5f, player.whoAmI, 0f, i);
+			}
+		}
+
+		// 对应新版 CSUtils.HeldDamage(originDamage) = originDamage * 手持物品的伤害倍率
+		public static int HeldDamage(Player player, float originDamage)
+		{
+			Item item = player.HeldItem;
+			float mult = 1f;
+			if (!item.IsAir) mult = player.GetTotalDamage(item.DamageType).ApplyTo(1f);
+			return (int)(originDamage * mult);
+		}
+
+		// ---- 绝灭魔石：给 500 像素内的生物与弹幕加更强的重力（对应新版 PostUpdateMiscEffects 里的两段）----
+		public static void PostUpdateMiscEffects(Player player)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			bool statigelHasGraze = false;   // 斯塔提斯擦弹判定结果
+			bool breakWulfrumField = false;   // 1.3：本帧力场是否被打破（打破则进 15 秒冷却）
+			// ---- 日影：遁于暗影计时（1.3 PostUpdateMiscEffects:1124-1137 逐值照搬）----
+			if (mplayer.CanUmbraphileShealth)
+			{
+				if (mplayer.UmbraphileShealth >= 10 * 60) mplayer.UmbraphileShealth = -1;
+				if (mplayer.UmbraphileShealth >= 0)
+				{
+					mplayer.UmbraphileShealth++;
+					if (player.itemAnimation > 0) mplayer.UmbraphileShealth = 0;
+				}
+			}
+			else mplayer.UmbraphileShealth = 0;
+			if (mplayer.UmbraphileShealth == -1)
+			{
+				player.AddBuff(ModContent.BuffType<Buffs.UmbraphileUndetectedV104>(), 2);
+			}
+			if (mplayer.SnowFreeze || mplayer.HydrothermicSolarCircle || mplayer.StatigelArea)
+			{
+				foreach (NPC npc in Main.npc)
+				{
+					if (!npc.active) continue;
+					float distanceR = DistFromRectan(player.Center, npc.Hitbox);
+					float distance = Vector2.Distance(player.Center, npc.Center);
+					// 雪境暴徒：冰冻 200 像素内的敌人（沿用移植工程里已有的 CSNPC.Frozen 实现）
+					if (mplayer.SnowFreeze && distanceR < 200f)
+					{
+						int time = (int)((1f - distanceR / 200f) * 300f);
+						if (time > 180) time = 180;
+						npc.CS().Frozen = time;
+						if (!npc.friendly) npc.AddBuff(BuffID.Frostburn, time);
+					}
+					if (npc.friendly) continue;
+					if (npc.dontTakeDamage) continue;
+					// 斯塔提斯：生物擦弹（1.3 位于 npc.damage > 0 的块内）
+					if (mplayer.StatigelArea && npc.damage > 0 && distanceR < 125f) statigelHasGraze = true;
+					// 钨钢力场：把贴到力场上的敌人顶开（1.3 CSPlayerEffects:988-1008 逐值）
+					if (mplayer.WulfrumField && mplayer.WulfrumFieldCooldown <= 0 && !breakWulfrumField && npc.damage > 0)
+					{
+						float distW = DistFromRectan(player.Center + MathHelper.ToRadians(mplayer.WulfrumFieldAnimationTimer * 30).ToRotationVector2(), npc.Hitbox);
+						if (distW < 35f)
+						{
+							Vector2 dirW = DirectionFromSafe(npc, player.Center);
+							if (dirW.HasNaNs()) dirW = -Vector2.UnitY;
+							npc.Center = player.Center + dirW * (60f + (npc.width + npc.height) / 4f);
+							if (Vector2.Dot(npc.velocity, dirW) < 0f)
+							{
+								npc.velocity = -npc.velocity * 0.8f;
+								if (npc.velocity.Length() < 5f) npc.velocity.Length(5f);
+							}
+							else npc.velocity += dirW * 5f;
+							npc.AddBuff(ModContent.BuffType<CalamityMod.Buffs.StatDebuffs.Eutrophication>(), 90);   // 1.3: npc.Calamity().eutrophication += 90（2.x 该字段不可写 → 改用其等价的富营养化减益；差异表已记）
+							breakWulfrumField = true;
+							for (int wi = 0; wi < 6; wi++)
+							{
+								Dust wd = Dust.NewDustPerfect(player.Center + dirW * 60f, DustID.Electric);
+								wd.noGravity = Main.rand.Next(2) == 0;
+								wd.scale *= Main.rand.NextFloat() + 1f;
+							}
+						}
+					}
+					// 渊泉：日炎环（1.3 逐值 —— 矩形距离 < 160 引爆；中距时把爆点压到 160 处；
+					// 12 粒 SolarFlare 尘；伤害 Main.rand.Next(34,47) * (Annihilation ? 50 : 10)，
+					// 乘 (1 - npc.DR)，下限 1；击退 10 * knockBackResist^0.5；冷却本体 4 帧 / 其他 15 帧）
+					if (mplayer.HydrothermicSolarCircle && RealNPC(npc).CSV104().HydrothermicBurstCooldown <= 0 && distanceR < 160f)
+					{
+						Vector2 pos = npc.Center;
+						if (distance > 160f) pos = player.Center + DirectionToSafe(player, npc.Center) * 160f;
+						SoundEngine.PlaySound(SoundID.Item14 with { Volume = 1f / 3f }, pos);
+						for (int i = 0; i < 12; i++)
+						{
+							Dust explosion = Dust.NewDustPerfect(pos, DustID.SolarFlare);
+							explosion.noGravity = true;
+							explosion.noLight = false;
+							explosion.scale = 1.2f;
+							explosion.velocity = CSUtils.RandomRotate * Main.rand.NextFloat(2.5f, 5f);
+						}
+
+						int amt = Main.rand.Next(34, 47) * (mplayer.AnnihilationEffect ? 50 : 10);
+						amt = (int)(amt * (1 - npc.Calamity().DR));
+						if (amt < 0) amt = 1;
+						npc.StrikeNPCExtra(amt, new Color(224, 108, 29), player);
+						npc.velocity += DirectionFromSafe(player, npc.Center) * 10f * (float)System.Math.Pow(npc.knockBackResist, 0.5f);
+
+						if (npc.realLife > 0) RealNPC(npc).CSV104().HydrothermicBurstCooldown = 4;
+						else npc.CSV104().HydrothermicBurstCooldown = 15;
+
+						float rand = Main.rand.Next(0, 360);
+						for (int i = 0; i < 36; i++)
+						{
+							Vector2 dir = ToDegreesVector2(i * 10 + rand);
+							Dust dust = Dust.NewDustPerfect(player.Center + dir * 160f, DustID.SolarFlare);
+							dust.noGravity = true;
+							dust.noLight = true;
+							dust.velocity = DirectionFromSafe(player, dust.position) * dust.velocity.Length() * 5f;
+							dust.scale = 0.9f;
+						}
+					}
+				}
+			}
+			// ---- 斯塔提斯：弹幕擦弹判定（1.3 PostUpdateMiscEffects:1031-1032 逐值）----
+			if (mplayer.StatigelArea && !statigelHasGraze)
+			{
+				foreach (Projectile proj in Main.projectile)
+				{
+					if (!proj.active) continue;
+					// 钨钢力场：清除力场矩形内的敌方弹幕（1.3 CSPlayerEffects:1033-1041）
+					if (mplayer.WulfrumField && mplayer.WulfrumFieldCooldown <= 0 && !breakWulfrumField && proj.hostile)
+					{
+						Vector2 wfPos = player.Center + MathHelper.ToRadians(mplayer.WulfrumFieldAnimationTimer * 30).ToRotationVector2();
+						Rectangle rectW = new Rectangle((int)(wfPos.X - 70f), (int)(wfPos.Y - 70f), 140, 140);   // 1.3: CSUtils.SpawnCenteredRectan(pos, 70)（我方 CSUtils 无该 helper → 内联等价）
+						if (proj.Colliding(proj.Hitbox, rectW))
+						{
+							proj.Kill();
+							breakWulfrumField = true;
+						}
+					}
+					if (proj.hostile && DistFromRectan(player.Center, proj.Hitbox) < 125f)
+					{
+						statigelHasGraze = true;
+						break;
+					}
+				}
+			}
+			// ---- 斯塔提斯：擦到就给 12% 增伤 Buff（30*30 帧）+ 90 帧无敌（1.3 PostUpdateMiscEffects:1097-1106 逐值）----
+			// 钨钢力场自身：照明 + 冷却粒子 + 破碎后进 15 秒冷却（1.3 CSPlayerEffects:1138-1155 逐值）
+			if (mplayer.WulfrumField)
+			{
+				Lighting.AddLight(player.Center, 0f, 1.5f, 1.5f);
+				if (mplayer.WulfrumFieldCooldown > 0 && Main.rand.Next(3) == 0)
+				{
+					Dust wd = Dust.NewDustDirect(player.Center - new Vector2(20), 40, 40, DustID.Electric);
+					wd.noGravity = Main.rand.Next(2) == 0;
+					wd.scale *= Main.rand.NextFloat() + 1f;
+					wd.velocity = DirectionFromSafe(player, wd.position) * 2f;
+				}
+				if (breakWulfrumField)
+				{
+					mplayer.WulfrumFieldCooldown = 15 * 60;
+					for (int wi = 0; wi < 20; wi++)
+					{
+						Dust wd = Dust.NewDustDirect(player.Center - new Vector2(60f), 120, 120, DustID.Electric);
+						wd.noGravity = Main.rand.Next(2) == 0;
+						wd.scale *= Main.rand.NextFloat() + 1f;
+					}
+				}
+			}
+			if (mplayer.StatigelArea && statigelHasGraze)
+			{
+				int dmgBoostType = ModContent.BuffType<Buffs.StatigelDamageBuffV104>();
+				if (player.FindBuffIndex(dmgBoostType) == -1)
+				{
+					player.AddBuff(dmgBoostType, 30 * 30);
+					player.SetImmunityTime(90);
+				}
+			}
+			if (!mplayer.ExterminationGravity) return;
+			foreach (NPC npc in Main.npc)
+			{
+				if (!npc.active || npc.realLife == -1) continue;
+				float distanceR = Vector2.Distance(player.Center, npc.Center);
+				if (distanceR < 500f)
+				{
+					float gravity = npc.boss ? 0.02f : 0.2f;
+					float airResistance = npc.boss ? 0.995f : 0.98f;
+					npc.velocity.Y += gravity;
+					npc.velocity *= airResistance;
+				}
+			}
+			foreach (Projectile proj in Main.projectile)
+			{
+				if (!proj.active) continue;
+				float distance = Vector2.Distance(player.Center, proj.Center);
+				if (distance < 500f)
+				{
+					// 1.3 用 Calamity 的 CouldBeCleared() 分类；这里以其语义近似：敌对弹幕按"可清除"处理
+					float gravity = proj.hostile ? 0.04f : 0.01f;
+					float airResistance = proj.hostile ? 0.995f : 0.998f;
+					proj.velocity.Y += gravity;
+					proj.velocity *= airResistance;
+				}
+			}
+		}
+
+		// ---- 星流魔石：受到伤害后给 10 秒力场 Buff（对应新版 PostHurt）----
+		public static void PostHurt(Player player)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			if (mplayer.ExoShield) player.AddBuff(ModContent.BuffType<ExoShieldBuffV104>(), 10 * 60);
+
+			// ---- 瘟疫收割者：把"受击清空肾上腺素"改成"受击时释放当前肾上腺素" ----
+			if (mplayer.PlagueReaperAdrenaline)
+			{
+				CalamityPlayer cplayer = player.GetModPlayer<CalamityPlayer>();
+				cplayer.adrenaline = mplayer.PlagueReaperHasAdrenalineCurrently;
+				if (cplayer.adrenalineMax > 0f)
+				{
+					player.AddBuff(ModContent.BuffType<AdrenalineMode>(),
+						(int)(5f * 60f * mplayer.PlagueReaperHasAdrenalineCurrently / cplayer.adrenalineMax));
+					mplayer.PlagueReaperBlind = (int)(120f * mplayer.PlagueReaperHasAdrenalineCurrently / cplayer.adrenalineMax);
+				}
+			}
+		}
+
+		// ---- 瘟疫收割者：每帧记录"当前攒了多少肾上腺素"，供受击时释放（对应新版 PostUpdate）----
+		public static void PostUpdate(Player player)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			// ---- 始源林海（1.3 FinalUpdate:1178-1187 逐值）----
+			if (mplayer.SilvaTrueInvincibility)
+			{
+				player.statLife = player.statLifeMax2;
+			}
+			if (mplayer.SilvaReviveCount > 0 && !mplayer.SilvaRevive)
+			{
+				PlayerDeathReason reason = PlayerDeathReason.ByCustomReason(
+					player.name + (V104Utils.UsingChi ? "死于绝望。" : " hugged death."));
+				player.KillMe(reason, 0, 0);
+			}
+			if (!mplayer.PlagueReaperAdrenaline || !CalamityWorld.revenge) return;
+			CalamityPlayer cplayer = player.GetModPlayer<CalamityPlayer>();
+			if (!cplayer.adrenalineModeActive) mplayer.PlagueReaperHasAdrenalineCurrently = cplayer.adrenaline;
+			else mplayer.PlagueReaperHasAdrenalineCurrently = 0f;
+		}
+
+		// ---- 弑神者：冲刺触发（1.3 CSPlayer.Update:433-442 逐值照搬）----
+		public static void GodslayerDashTrigger(Player player)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			if (!(mplayer.GodslayerDash && !mplayer.GodslayerDashing
+				&& !player.HasCooldown(CalamityMod.Cooldowns.GodSlayerDash.ID))) return;
+			mplayer.GodslayerDashing = true;
+			mplayer.GodslayerDashDirection = DirectionToSafe(player, Main.MouseWorld).ToRotation();
+			mplayer.GodslayerDashingTimer = 30;
+			if (player.whoAmI == Main.myPlayer)
+				Projectile.NewProjectile(player.GetSource_FromThis(), player.Center,
+					mplayer.GodslayerDashDirection.ToRotationVector2() * 60f,
+					ModContent.ProjectileType<GodslayerDoGV104>(), mplayer.TyrannyEffect ? 1450 : 450, 0f, player.whoAmI);
+			player.AddCooldown(CalamityMod.Cooldowns.GodSlayerDash.ID, 15 * 60, true);
+		}
+
+		// ---- 始源林海：复活（1.3 CSPlayer.DoSilvaRevive:346-367 逐值照搬）----
+		public static void DoSilvaReviveV104(Player player, CSPlayerV104 mplayer)
+		{
+			player.headVelocity = player.bodyVelocity = player.legVelocity = Vector2.Zero;
+			player.dead = false;
+			player.respawnTimer = -1;
+			if (player.whoAmI == Main.myPlayer) { try { WorldGen.saveToonWhilePlaying(); } catch { } }
+			player.statLife = player.statLifeMax2;
+			player.breath = player.breathMax;
+			mplayer.SilvaReviveCount++;
+			foreach (NPC npc in Main.npc)
+			{
+				if (npc.active && !npc.friendly && npc.realLife == -1)
+				{
+					npc.life += (int)(npc.lifeMax * 0.1f);
+					if (npc.life > npc.lifeMax) npc.life = npc.lifeMax;
+					NetMessage.SendData(MessageID.SyncNPC);
+				}
+			}
+			player.SetImmunityTime(240);
+			mplayer.SilvaTrueInvincibility = true;
+			player.AddBuff(ModContent.BuffType<Buffs.SilvaInvincibilityV104>(), 240);
+		}
+
+		// ---- 弑神者·古：受击传送闪避（1.3 PreHurt:602-659 逐值照搬）----
+		// 1.4 说明：1.3 的 PreHurt 能拿到 damageSource；1.4 的 ModifyHurt 拿不到来源，
+		//   故改用 1.4 的"完全闪避"钩子 ModPlayer.FreeDodge(Player.HurtInfo)：1.3 的 return false（取消伤害）
+		//   ↔ 这里返回 true（闪避成功）；damage/damageSource 改取 info.Damage / info.DamageSource.SourceProjectileLocalIndex / SourceNPCIndex。
+		public static bool GodslayerAncientFreeDodge(Player player, Player.HurtInfo info)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			CalamityPlayer cplayer = player.GetModPlayer<CalamityPlayer>();
+			if (!(mplayer.GodslayerAncientTeleport && !player.chaosState && !cplayer.disableAllDodges)) return false;
+
+			// ① 尘环：rand(4,8) 条射线 × 每条 rand(12,21) 粒 Dust 27
+			float rnd = Main.rand.NextFloat(MathHelper.TwoPi);
+			int rAmt = Main.rand.Next(4, 8);
+			for (int j = 0; j < rAmt; j++)
+			{
+				int rLength = Main.rand.Next(12, 21);
+				for (int i = 0; i < rLength; i++)
+				{
+					Vector2 dir = rnd.ToRotationVector2().RotatedBy(MathHelper.ToRadians(j * 360f / rAmt));
+					Dust dust = Dust.NewDustPerfect(player.Center + 4 * i * dir, 27);
+					dust.noGravity = true;
+					dust.scale = 2.5f - System.Math.Abs(i * rLength / 20f) / 10f;
+					dust.velocity = -System.Math.Sign(i) * dir * 1f;
+					dust.color = Color.Black;
+				}
+			}
+			// ② 黑洞（1.3 原设计：生成后设为【非友方】+ timeLeft 30 —— 照搬，不改）
+			if (player.whoAmI == Main.myPlayer)
+			{
+				Projectile voidMatter = Projectile.NewProjectileDirect(player.GetSource_FromThis(), player.Center, Vector2.Zero,
+					ModContent.ProjectileType<SealedSingularityBlackholeV104>(), 0, 0f, player.whoAmI);
+				voidMatter.friendly = false;
+				voidMatter.timeLeft = 30;
+			}
+			// ③ 传送目标：最多 5 次重试直到目标格不是实心砖
+			Vector2 pos = player.Center + CSUtils.RandomRotate * Main.rand.Next(320, 640);
+			for (int t2 = 0; t2 < 5; t2++)
+			{
+				if (!WorldGen.SolidTile(Main.tile[(int)(pos.X / 16), (int)(pos.Y / 16)])) break;
+				pos = player.Center + CSUtils.RandomRotate * Main.rand.Next(320, 640);
+			}
+			player.Teleport(pos, 1);
+			// ④ 50 粒 Shadowflame
+			for (int m = 0; m < 50; m++)
+			{
+				Dust dust = Dust.NewDustDirect(player.position, player.width, player.height, DustID.Shadowflame);
+				dust.position.X += Main.rand.Next(-20, 21);
+				dust.position.Y += Main.rand.Next(-20, 21);
+				dust.velocity *= 0.9f;
+				dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
+				dust.color = Color.Black;
+				if (Utils.NextBool(Main.rand, 2)) dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
+			}
+			// ⑤ 音效（1.3: Main.PlaySound(SoundID.Item, x, y, 67, 1f, 0f) → 1.4 的 SoundID.Item67，已核实存在）
+			SoundEngine.PlaySound(SoundID.Item67, player.position);
+			player.AddBuff(BuffID.ChaosState, 10 * 60);
+			player.SetImmunityTime(30);
+			// ⑥ 反击来源：弹幕（带 1.3 的豁免判定 → 2.x ShouldNotBeReflected）
+			if (info.DamageSource.SourceProjectileLocalIndex != -1)
+			{
+				Projectile hosPSource = Main.projectile[info.DamageSource.SourceProjectileLocalIndex];
+				if (!CalamityMod.Systems.Collections.CalamityProjectileSets.ShouldNotBeReflected[info.DamageSource.SourceProjectileType])
+					if (hosPSource.active)
+						hosPSource.Kill();
+			}
+			// ⑦ 反击来源：NPC（1.3: StrikeNPCExtra(damage * 10, Color.Violet, player)）
+			if (info.DamageSource.SourceNPCIndex != -1)
+			{
+				NPC hosNSource = Main.npc[info.DamageSource.SourceNPCIndex];
+				if (hosNSource.active && !hosNSource.friendly && !hosNSource.dontTakeDamage)
+					hosNSource.StrikeNPCExtra(info.Damage * 10, Color.Violet, player);
+			}
+			return true;   // 1.3: return false（闪避成功、取消本次伤害）
+		}
+
+		// ---- 弑神者：冲刺位移（1.3 CSPlayerEffects.PostUpdateRunSpeeds:1247-1259 逐值照搬）----
+		public static void GodslayerDashMovement(Player player, CSPlayerV104 mplayer)
+		{
+			if (!mplayer.GodslayerDashing) return;
+			mplayer.gsaShadow = true;
+			player.maxFallSpeed = 1000f;
+			player.slowFall = false;
+			player.gravity = 0f;
+			player.velocity = mplayer.GodslayerDashDirection.ToRotationVector2() * 55f;
+			player.chaosState = true;
+			player.SetImmunityTime(2);
+			player.dashDelay = 1;
+			Vector2 velo = Collision.TileCollision(player.position, player.velocity, player.width, player.height);
+			if (velo.Length() < 15f && mplayer.GodslayerDashingTimer > 1) mplayer.GodslayerDashingTimer = 1;
+		}
+
+		// ---- 血炎 / 硫火：热键分支（1.3 CSPlayer.Update:383-427 逐值照搬）----
+		public static void BrimFrenzyKeyTrigger(Player player)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			if (!(mplayer.CanBrimFrenzy && !mplayer.BrimFrenzy && !mplayer.BrimFrenzyCooldown)) return;
+			player.AddBuff(ModContent.BuffType<Buffs.BrimFrenzyV104>(), 10 * 60);
+			// 1.3: Cal.GetLegacySoundSlot(...BrimflameAbility) → 音效已补入本模组 Sounds/Custom/，用自有路径播放（1:1）
+			SoundEngine.PlaySound(new SoundStyle("CalamitySouls/Sounds/Custom/BrimflameAbility"), player.Center);
+			if (!mplayer.BloodflareLostSouls) return;
+
+			// 1.3: Cal.GetLegacySoundSlot(...BloodflareRangerActivation) → 音效已补入本模组 Sounds/Custom/（1:1）
+			
+			SoundEngine.PlaySound(new SoundStyle("CalamitySouls/Sounds/Custom/BloodflareRangerActivation"), player.Center);
+
+			int RedTorch = 60;
+			for (int d = 0; d < 64; d++)
+			{
+				Dust dust2 = Dust.NewDustDirect(player.position + Vector2.UnitY * 16f, player.width, player.height - 16, RedTorch);
+				dust2.velocity *= 3f;
+				dust2.scale *= 1.15f;
+			}
+			int dustAmt = 36;
+			for (int d2 = 0; d2 < dustAmt; d2++)
+			{
+				Vector2 value2 = (Vector2.Normalize(player.velocity) * new Vector2(player.width / 2f, player.height))
+					.RotatedBy(MathHelper.ToRadians((d2 + 1 - dustAmt / 2) / dustAmt)) * 0.75f + player.Center;
+				Vector2 dustVel = value2 - player.Center;
+				Dust phanto = Dust.NewDustDirect(value2 + dustVel, 0, 0, RedTorch, dustVel.X * 1.5f, dustVel.Y * 1.5f, 100, default, 1.4f);
+				phanto.noGravity = true;
+				phanto.noLight = true;
+				phanto.velocity = dustVel;
+			}
+			float spread = 0.783f;
+			float startAngle = player.velocity.ToRotation() - (spread / 2f);
+			float deltaAngle = (spread / 8f);
+			int damage = HeldDamage(player, mplayer.AnnihilationEffect ? 1400f : 700f);
+			if (player.whoAmI == Main.myPlayer)
+			{
+				for (int k = 0; k < 8; k++)
+				{
+					float ai = Utils.NextFloat(Main.rand) + 0.5f;
+					Vector2 randomSpeed = Vector2.UnitY * Main.rand.Next(1, 7);
+					Vector2 randomSpeed2 = Vector2.UnitY * Main.rand.Next(1, 7);
+					float offsetAngle = startAngle + deltaAngle * (k + k * k) / 2f + (32f * k);
+					Projectile.NewProjectile(player.GetSource_FromThis(), player.Center,
+						offsetAngle.ToRotationVector2() * 5f + randomSpeed,
+						ModContent.ProjectileType<CalamityMod.Projectiles.Ranged.BloodflareSoul>(), damage, 0f, player.whoAmI, 0f, ai);
+					Projectile.NewProjectile(player.GetSource_FromThis(), player.Center,
+						-offsetAngle.ToRotationVector2() * 5f + randomSpeed2,
+						ModContent.ProjectileType<CalamityMod.Projectiles.Ranged.BloodflareSoul>(), damage, 0f, player.whoAmI, 0f, ai);
+				}
+			}
+		}
+
+		// ---- 天蓝：冲刺触发（1.3 CSPlayer.Update:373-382 逐值照搬）----
+		public static void AeroDashTrigger(Player player)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			if (!(mplayer.AeroJump && mplayer.AeroJumpEffect <= 0)) return;
+			int fatigue = ModContent.BuffType<Buffs.AeroFatigueV104>();
+			int fatigueIndex = player.FindBuffIndex(fatigue);
+			if (fatigueIndex == -1) player.AddBuff(fatigue, 180);
+			else if (player.buffTime[fatigueIndex] < 1200) player.buffTime[fatigueIndex] += 180;
+			player.dashDelay = mplayer.AeroJumpEffect = 10;
+			mplayer.AeroJumpDirection = AngleToSafe(player, Main.MouseWorld);
+			SoundEngine.PlaySound(SoundID.Item29, player.Center);
+		}
+
+		// ---- 天蓝：冲刺位移（1.3 CSPlayerEffects.PostUpdateRunSpeeds:1205-1214 逐值照搬）----
+		public static void AeroDashMovement(Player player, CSPlayerV104 mplayer)
+		{
+			if (mplayer.AeroJumpEffect <= 0) return;
+			Vector2 dir = mplayer.AeroJumpDirection.ToRotationVector2();
+			player.direction = dir.X > 0f ? 1 : -1;
+			player.maxFallSpeed = 50;
+			player.Center += dir * 40f;
+			player.velocity = dir * 10f;
+			player.itemAnimation = player.itemTime = -1;
+			player.channel = false;
+			if (mplayer.AeroJumpEffect == 1) player.itemAnimation = player.itemTime = 0;
+			// 1.3 原文（CSPlayerEffects:1215-1236）：
+			//   if (Main.rand.Next(4) == 0 && player.whoAmI == Main.myPlayer)
+			//       NewProjectile(RandPosInRectan(player.Hitbox), player.velocity, AeroFeather, 20, 0f, owner);
+			if (Main.rand.Next(4) == 0 && player.whoAmI == Main.myPlayer)
+			{
+				Projectile.NewProjectile(player.GetSource_FromThis(), RandPosInRectan(player.Hitbox), player.velocity,
+					ModContent.ProjectileType<AeroFeatherV104>(), 20, 0f, player.whoAmI);
+			}
+			// 第一段：5 粒 GoldFlame 尾迹
+			for (int i = 0; i < 5; i++)
+			{
+				Dust dust = Dust.NewDustPerfect(player.Center + CSUtils.RandomRotate * 8f - dir * i * 8f, DustID.GoldFlame);
+				dust.noGravity = true;
+				dust.velocity = dir * 10f;
+				dust.scale *= 2.3f;
+			}
+			// 第二段：两侧"翅膀状"的 5×2 粒 BlueFairy
+			for (int i = 0; i < 5; i++)
+			{
+				for (int j = -1; j <= 1; j += 2)
+				{
+					Vector2 dirWing = dir.RotatedBy(j * MathHelper.PiOver2);
+					Dust dust = Dust.NewDustPerfect(player.Center - dir * i * 8f + dirWing * 18f, DustID.BlueFairy);
+					dust.noGravity = true;
+					dust.velocity = dir * 10f;
+					dust.scale *= 0.8f;
+				}
+			}
+		}
+
+		// 1.3 CSUtils 的等价 helper（2.x / 现有移植工程里没有，加在 V104 侧）
+		public static float AngleToSafe(Entity entity, Vector2 pos) => DirectionToSafe(entity, pos).ToRotation();
+		// 1.3 CSUtils.Wrap(value, min, max) 的等价实现（把 value 折回 [min, max) 区间）
+		public static float Wrap(float value, float min, float max)
+		{
+			float range = max - min;
+			if (range <= 0f) return min;
+			return value - range * (float)System.Math.Floor((value - min) / range);
+		}
+		public static Vector2 RandPosInRectan(Rectangle rect)
+			=> new Vector2(Main.rand.Next(rect.X, rect.Right), Main.rand.Next(rect.Y, rect.Bottom));
+
+		// ---- 掠夺者：热键切换（1.3 逐值：提示文本 + 32 粒 DustID.AncientLight + SoundID.Item14 音量 ×1.3）----
+		public static void ReaverSwitchKey(Player player)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			if (mplayer.ReaverEffect)
+			{
+				string text = V104Utils.UsingChi ? "所有效果已经开启，无需切换。" : "All effects has been enabled. No need to switch.";
+				Color color = Color.White;
+				switch (mplayer.ReaverEffectSelect)
+				{
+					case 0:
+						text = V104Utils.UsingChi ? "掠夺者魔石：切换至[c/D42950:速度效果]" : "Reaver Enchantment: switch to [c/D42950:Speed effect]";
+						color = new Color(212, 41, 80);
+						break;
+					case 1:
+						text = V104Utils.UsingChi ? "掠夺者魔石：切换至[c/FFAB1B:探索效果]" : "Reaver Enchantment: switch to [c/FFAB1B:Explore effect]";
+						color = new Color(255, 171, 27);
+						break;
+					case 2:
+						text = V104Utils.UsingChi ? "掠夺者魔石：切换至[c/36A442:防御效果]" : "Reaver Enchantment: switch to [c/36A442:Defense effect]";
+						color = new Color(54, 164, 66);
+						break;
+				}
+				Main.NewText(text);
+				SoundEngine.PlaySound(SoundID.Item14 with { Volume = 1.3f }, player.Center);
+				for (int i = 0; i < 32; i++)
+				{
+					Dust dust = Dust.NewDustDirect(player.position, player.width, player.height, DustID.AncientLight);
+					dust.noGravity = true;
+					dust.noLight = true;
+					dust.color = color;
+					dust.velocity = CSUtils.RandomRotate * 5f;
+					dust.scale *= 1f + Main.rand.NextFloat();
+				}
+			}
+			mplayer.ReaverEffectSelect++;
+		}
+
+		// ---- 掠夺者·防御档：近战命中吸血（1.3 CSPlayerEffects.cs:767-797 逐值照搬）----
+		// 1.3：lifeRegenTime++；10% 概率；仅近战（proj == null）；heal = damage*0.2 上限 10；
+		//      lifeSteal -= heal*3；在 255 个玩家中选"1200 像素内、血量差最大"的队友作为治疗目标；
+		//      然后 NewProjectile(target.Center, Vector2.Zero, ReaverHealOrb, 0, 0f, owner, healTarget, heal)
+		public static void OnHitNPCWithItem(Player player, NPC target, int damage)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			if (!mplayer.ReaverDefense) return;
+			player.lifeRegenTime++;
+			if (Main.rand.Next(10) != 0) return;
+			if (Main.player[Main.myPlayer].lifeSteal <= 0f || !target.canGhostHeal || player.moonLeech) return;
+			float heal = damage * 0.2f;
+			if (heal > 10f) heal = 10f;
+			if ((int)heal <= 0 || Main.player[Main.myPlayer].moonLeech) return;
+			Main.player[Main.myPlayer].lifeSteal -= heal * 3f;
+			float lowestHealthCheck = 0f;
+			int healTarget = player.whoAmI;
+			for (int i = 0; i < 255; i++)
+			{
+				Player otherPlayer = Main.player[i];
+				if (otherPlayer.active && !otherPlayer.dead
+					&& ((!player.hostile && !otherPlayer.hostile) || player.team == otherPlayer.team)
+					&& Vector2.Distance(target.Center, otherPlayer.Center) < 1200f
+					&& (float)(otherPlayer.statLifeMax2 - otherPlayer.statLife) > lowestHealthCheck)
+				{
+					lowestHealthCheck = otherPlayer.statLifeMax2 - otherPlayer.statLife;
+					healTarget = i;
+				}
+			}
+			Projectile.NewProjectile(player.GetSource_FromThis(), target.Center, Vector2.Zero,
+				ModContent.ProjectileType<ReaverHealOrbV104>(), 0, 0f, player.whoAmI, healTarget, heal);
+		}
+
+		// ---- 魔影·激怒（1.3 cal13_CalamityPlayer.cs:3565-3601 的 dsSetBonus 分支逐值照搬）----
+		// 音效：1.3 用 Main.PlaySound(29, x, y, 104, 1f, 0f)（legacy 槽位）+ 灾厄自定义音
+		//       CalamityMod.Sounds.Custom.ReaperEnragedRoar；2.x 已移除该自定义音效资源 ⇒ 未接，见报告差异表。
+		public static void DemonshadeEnrage(Player player)
+		{
+			// 触发条件：佩戴「新版魔影魔石」（新版靠 cplayer.dsSetBonus；该字段在 2.x 已【改名】为 demonshadeSet，
+			// 其置真已在 Ench.EnchDemonshadeV104.UpdateAccessory 内按 1.3 :149 补齐 ⇒ 灾厄侧 4 处读取恢复触发）；
+			// 本处直接判本 mod 自己的魔石（语义等价：1.3 中 dsSetBonus 的唯一置真者就是本模组魔石），效果与 1.3 逐值一致
+			bool has = false;
+			for (int i = 0; i < player.armor.Length; i++)
+			{
+				if (player.armor[i].type == ModContent.ItemType<Ench.EnchDemonshadeV104>()) { has = true; break; }
+			}
+			if (!has) return;
+
+			for (int i = 0; i < 36; i++)
+			{
+				Dust d = Dust.NewDustDirect(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 235, 0f, 0f, 0, default, 1f);
+				d.velocity *= 3f;
+				d.scale *= 1.15f;
+			}
+			int n25 = 36;
+			for (int i = 0; i < n25; i++)
+			{
+				Vector2 v9 = (Vector2.Normalize(player.velocity) * new Vector2(player.width / 2f, player.height) * 0.75f)
+					.RotatedBy((i - (n25 / 2 - 1)) * MathHelper.TwoPi / n25) + player.Center;
+				Vector2 v10 = v9 - player.Center;
+				Dust d = Dust.NewDustDirect(v9 + v10, 0, 0, 235, v10.X * 1.5f, v10.Y * 1.5f, 100, default, 1.4f);
+				d.noGravity = true;
+				d.noLight = true;
+				d.velocity = v10;
+			}
+			if (player.whoAmI == Main.myPlayer)
+				player.AddBuff(ModContent.BuffType<CalamityMod.Buffs.StatDebuffs.Enraged>(), 600);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC npc = Main.npc[i];
+					if (npc.active && !npc.friendly && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= 3000f)
+						npc.AddBuff(ModContent.BuffType<CalamityMod.Buffs.StatDebuffs.Enraged>(), 600);
+				}
+			}
+		}
+
+		// ---- 欧米伽蓝：敌人护甲越高你伤害越高（近战分支；弹幕分支在 CSProjectileV104）----
+		// 两条钩子在 1.4 里是互斥的：ModifyHitNPCWithItem 只在"物品直接命中"时跑，
+		// GlobalProjectile.ModifyHitNPC 只在"弹幕命中"时跑，同一次命中不会两条都走。
+		public static void ModifyHitNPCWithItem(Player player, NPC target, ref NPC.HitModifiers modifiers)
+		{
+			CSPlayerV104 mplayer = player.V104();
+			if (mplayer.OmegaDefenseBreak) modifiers.FlatBonusDamage += target.defDamage * 0.5f;
+			// 圣蚀 / 硫磺：近战直接命中使敌人辐射（对应新版 OnHitNPCWithAnything）
+			if (mplayer.EnchAcidivine || mplayer.SulphurousPoison) target.Calamity().irradiated = true;
+		}
+
+		// ---- 星流魔石：力场存在时单次伤害不超过 50，挡一次后破碎并炸出 8 片碎片（对应新版 PreHurt 的 ExoShieldActive 段）----
+		public static void ModifyHurt(Player player, ref Player.HurtModifiers modifiers)
+		{
+			CSPlayerV104 mplayer = player.V104();
+
+			// ---- 代达罗斯：闪避（1.3 PreHurt:587-601 逐值照搬）----
+			if (mplayer.DaedalusEvade && !mplayer.DaedalusEvadeCooldown
+				&& !player.GetModPlayer<CalamityPlayer>().disableAllDodges)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					for (int i = 0; i < 12; i++)
+					{
+						Vector2 rotate = MathHelper.ToRadians(i * 30f).ToRotationVector2();
+						Projectile shard = Projectile.NewProjectileDirect(player.GetSource_FromThis(),
+							player.Center + rotate * 16f, rotate * 10f,
+							ModContent.ProjectileType<DaedalusIcicleV104>(), HeldDamage(player, 200f), 12f, player.whoAmI);
+						shard.GetPlayerDamageType(player);
+						shard.timeLeft = 530;
+					}
+				}
+				player.AddImmunityTime(player.longInvince ? 4 * 60 : 2 * 60);
+				player.AddBuff(ModContent.BuffType<Buffs.DaedalusEvadeCooldownV104>(), 60 * 60);
+				modifiers.FinalDamage *= 0f;   // 1.3: return false（闪避 → 伤害归零）
+				return;
+			}
+
+			// ---- 日影：遁于暗影时闪避一次（1.3 PreHurt:661-693 逐值照搬）----
+			if (mplayer.CanUmbraphileShealth && mplayer.UmbraphileShealth == -1
+				&& !player.GetModPlayer<CalamityPlayer>().disableAllDodges)
+			{
+				player.AddImmunityTime(4 * 60);
+				for (int i = 0; i < 32; i++)
+				{
+					Vector2 dir = MathHelper.ToRadians(i / 32f * 360f).ToRotationVector2();
+					Dust flame = Dust.NewDustPerfect(player.Center + dir, DustID.GoldFlame);
+					flame.noGravity = true;
+					flame.velocity = dir * 4f;
+					flame.scale = 2.4f;
+					Dust dark = Dust.NewDustPerfect(player.Center, DustID.AncientLight);
+					dark.noGravity = true;
+					dark.noLight = true;
+					dark.velocity = dir * 3f;
+					dark.scale = 1.6f;
+					dark.color = Color.Black;
+				}
+				for (int i = 0; i < 8; i++)
+				{
+					for (int j = 0; j < 4; j++)
+					{
+						Vector2 dir = MathHelper.ToRadians(i * 45f).ToRotationVector2() * 1.2f;
+						if (i % 2 == 0) dir *= 1.2f;
+						dir *= (4 + j) / 4f;
+						Dust flame = Dust.NewDustPerfect(player.Center + dir, DustID.GoldFlame);
+						flame.noGravity = true;
+						flame.velocity = dir * 4f;
+						flame.scale = 2.4f;
+					}
+				}
+				mplayer.UmbraphileShealth = 0;
+				modifiers.FinalDamage *= 0f;   // 1.3: return false（闪避 → 伤害归零）
+				return;
+			}
+
+			if (!mplayer.ExoShieldActive) return;
+			const float cap = 50f;
+			if (modifiers.FinalDamage.Base <= cap) return;
+
+			modifiers.FinalDamage.Base = cap;
+			player.ClearBuff(ModContent.BuffType<ExoShieldBuffV104>());
+			player.buffImmune[ModContent.BuffType<ExoShieldBuffV104>()] = true;
+
+			if (player.whoAmI != Main.myPlayer) return;
+			// 1.3 用命中来源索引取方向；1.4 的 HurtModifiers 暴露 HitDirection，这里用它近似
+			Vector2 hitDir = new Vector2(modifiers.HitDirection, 0f);
+			float radius = player.miscCounter % 100;
+			if (radius > 50) radius = 100 - radius;
+			for (int i = 0; i < 8; i++)
+			{
+				Vector2 dir = MathHelper.ToRadians(i * 45f).ToRotationVector2();
+				Projectile shard = Projectile.NewProjectileDirect(player.GetSource_FromThis(), player.Center + dir * 30f,
+					dir * 5f + hitDir * 13f, ModContent.ProjectileType<ExoShieldShardV104>(), 0, 0f, player.whoAmI, i);
+				shard.rotation = dir.ToRotation();
+				shard.scale = 0.8f + radius / 200f;
+			}
+		}
+	}
+}

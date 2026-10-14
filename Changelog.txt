@@ -1,0 +1,126 @@
+1.0.1
+Introduced the mod.
+
+1.0.2
+-1: Added moveSpeed and acceleration bonus to some ench *temporarily* 'cause I haven't added move accs like soul of flying master
+-2: Remade some descriptions, like fixing grammar, adding explainations to things like "Chinese-only-memes" or replacing them with other stuff
+-3: Adjusted some datas of Manic mode, simplified some recipes
+-4: Fixed issues that you deal tons of damage to high-defense target like DG
+-5: Buffed umbra-fogot-the-name, daedalus, fathom, mollusk, plaguereaper, astral, ancientgodslayer ench
+-6: Nerfed empyrean, bloodflare ench
+-7: removed fart jump in creature force and added a "Portable Fart" post-leviathan&golem
+-8: Adjusted the period of forces by adding some materials, let's leave Champions later 'cause I have some EXTREMELY IMPORTANT exams
+-9: Added mini calamitas pet for forcetyranny and soulcalamity
+-10: Totally remake of Manic mode s∞n, connection to eternity mode s∞n
+-11: Added Fishron, Deus, cv to "Boss-that-must-nerf" list
+-12: Mark a bug that some enermies doesn't do any damage, I have no idea wtf is going on (Fixed on later version)
+-13: Mark a bug that significantly boosted adrenaline damage, I killed DoG P2 in 6s! (tried to fix but dunno if I managed that)
+
+1.0.3
+-1: Figured out why you dont take damage and fixed sth
+-2: Fixed the bug that reduce enermies' damage taken by 50% instead of 30%, reduced enermy defense effectiveness to 1/4
+-3: Changed 5% crit damage boost of manic mode to 50% adrenaline damage boost
+-4: Fixed some tooltip bugs
+-5: Fixed a bug that moveSpeed boost is overpowered and reduced the amount boosted
+-6: Manic mode now speed up npc to *2.1AI speed, your defense block 50% damage instead of 75%, and becomes revenge-mode only
+-7: Fixed a bug that pReaper ench's infinite fly time work weirdly in defiled mode
+-8: Fixed bugs that you have tooooooooooooooooooons of extra projectiles
+-9: Nerfed Auric Enchantment Weapon Boost
+-10: Adjusted Bloodflare, Fearmonger, Titanheart Ench
+-11: Reworked Godslayer Ench
+-12: Buffed Empyrean, Tarragon Ench
+-13: Nerfed Daedalus, Sulprous, Statigel, GSA Ench, Tech force
+-14: Manic mode nerfed before any boss is taken down when no boss is alive
+-15: Added 2 frost weapons, Stink Cushion, Seafrog Leg, Molten Necklace, Evil Treads, Sandshark Necklace, Godly Spike Necklace
+-16: Added some recipes to reduce your time wasted looting for a certain item
+-17: Fixed a bug that some boss separate incorrectly
+-18: Fixed a bug that rogue class grant *2 crit chance from all-crit sources
+-19: Moved Portable Fart to post-any-mech
+-20: Added Impurity Inside, Flawless Wind, Emotion Release, Prismatic Trail Toggler
+
+1.0.3.1
+-1: Fixed a bug that Tech force's infinite fly doesn't work in defiled mode
+-2: Fixed a bug that tons of minion slot change aren't correctly applied
+-3: Simplified statigel ench recipe
+
+1.0.3.2
+-1: Fixed an issue that Auric ench ocassionally blows up your game
+-2: Give Emotion Release a new sound, fixed a bug that Emotion Release cannot attack, NERFed Emotion Release
+-3: Fixed some text errors
+-4: Nerfed Godslayer, Tarragon, AGS Ench, Tech Force
+-5: Tried to fix a bug that your Regen-On-Hit works unreasonably during immune time
+-6: Some file work
+-7: Added Sacred Monolith
+
+1.0.3.3
+-1: Fixed a bug that Frozen makes enermies fly up
+-2: Added Core of the Slime God, Fishes of Sight-Might-Fright-ecto-phanto-unholy, Crystal Treads
+-3: Added Suspicious Looking Box and a super Fishbox
+-4: Fixed a bug that unpenetrating projeciles cannot activate Reaver Spore Cloud
+-5: Nerfed Evil Boots, Godslayer Ench
+-6: Text bug fix
+-7: Added Changelog item
+
+1.0.3.4
+-1: Learned another way to show the changelog and deleted boxes
+-2: Fixed a bug that the Fishbox teleport player in manic mode
+-3: Added Jaw of the Desert, Yummy Mushroom, Aquaticfrog Fin, Infestedfrog Claw
+-4: Fixed a bug that Empyrean ench causes great damage output lose
+-5: Fixed a bug that Slime God Core slowly go down while sliding
+-6: Greatly increased Leaves speed of tarragon ench
+-7: Nerfed Molten Necklace
+-8: Added Mana Medallion
+-9: Fixed a bug  that fishbox challenge gives wrong fish after twins or destroyer
+-10: Added a buff given by placed rock post-scal
+-11: Reduced Creature Force projectile amount, but increased damage
+-12: Changed Manic mode to 150% speed and AI speed
+-13: Tried to fix TONS of bugs speed multipier causes
+-14: Reworked Titan ench, and moved it to Tech force
+-15: Weapon Fire Rate affects summon projectile velocity and ai speed now
+-16: Nerfed Emotion Release and Mollusk Ench
+-17: TONS of bug fixes I fogot to list here
+-18: Added a stealth regen mechanic waiting for adjustment
+
+1.0.3.5
+-1: Buffed Aero Ench
+-2: Reworked every enchant(code style, not effect)
+-3: Fixed the bug of mod's revive collides with calamity's(by deleting every revive of this mod)
+-4: Reworked Auric Ench
+-5: Added new recipe for Tyrant's Crystal and Auric Armor
+-6: Buffed Bloodflare, Fathom, Reaver, Tarragon Ench
+-7: Adjusted some recipes
+-8: Fixed TONS of text errors
+-9: Nerfed Sulphurous, Titanheart Ench
+-10: Reworked Prismatic Ench
+-11: Fixed a manic mode bug
+-12: Added 5 Portable Charging Stations
+-13: Adjusted some textures
+
+1.0.3.6
+-1: Fixed another manic mode ai bug
+-2: Reworked Snowruffian, Desertprowler Ench Visual Effect
+-3: Fixed a bug that aero-pcs requires nothing to craft
+-4: Buffed and reworked Wulfrum Ench
+-5: Removed meaningless 1 mana of icicle dagger
+-6: VISUAL EFFECT REWORK AND REWORK on every preH ench;
+-7: Added some synergy for preH enches
+-8: Gave seafrog a noFallDmg but changed its recipe
+
+1.0.3.7
+-1: BUG FIX
+-2: Reworked almost every ench from H to PreML
+-3: Moved forces to post-Scal
+-4: Completely reworked immunity time mechanic of this mod, making it using vanilla datas
+-5: Added synergy for most H enches, reworked a small part of force effects
+-6: Removed force desctiption and won't add them back before i finished post-ML ench rework
+-7: Added demonshade crucible
+-8: Fixed a bug that omega ench cause serious lag
+
+1.0.3.8
+-1: Tried to fix the multiplayer bug
+-2: Created another mod named Calamity's Plantation and moved many stuffs there
+-3: Fixed a serious bug that plaguebringer&desertprowler cause npc to disappear
+-4: !!!!![IMPORTANT]!!!!!Added Spells
+-5: Nerfed Bat Hook, Buffed Lunar Hook
+-6: Buffed Frozen Turtle Shell in HM
+-7: Fixed a bug that mollusk ench causes your inventory looking weird

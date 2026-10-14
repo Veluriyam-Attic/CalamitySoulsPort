@@ -1,0 +1,113 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CalamitySouls\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{98F94BBF-FFBA-4079-B690-D26090172E32}|CalamitySouls.csproj|d:\\documents\\my games\\terraria\\tmodloader\\modsources\\calamitysouls\\effects\\traileffect.fx||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{98F94BBF-FFBA-4079-B690-D26090172E32}|CalamitySouls.csproj|solutionrelative:effects\\traileffect.fx||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98F94BBF-FFBA-4079-B690-D26090172E32}|CalamitySouls.csproj|d:\\documents\\my games\\terraria\\tmodloader\\modsources\\calamitysouls\\effects\\fearmongertimefreezeregister.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98F94BBF-FFBA-4079-B690-D26090172E32}|CalamitySouls.csproj|solutionrelative:effects\\fearmongertimefreezeregister.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98F94BBF-FFBA-4079-B690-D26090172E32}|CalamitySouls.csproj|d:\\documents\\my games\\terraria\\tmodloader\\modsources\\calamitysouls\\effects\\blindregister.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98F94BBF-FFBA-4079-B690-D26090172E32}|CalamitySouls.csproj|solutionrelative:effects\\blindregister.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98F94BBF-FFBA-4079-B690-D26090172E32}|CalamitySouls.csproj|d:\\documents\\my games\\terraria\\tmodloader\\modsources\\calamitysouls\\effects\\blindscreenshader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98F94BBF-FFBA-4079-B690-D26090172E32}|CalamitySouls.csproj|solutionrelative:effects\\blindscreenshader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98F94BBF-FFBA-4079-B690-D26090172E32}|CalamitySouls.csproj|d:\\documents\\my games\\terraria\\tmodloader\\modsources\\calamitysouls\\effects\\cosmiceffect.fx||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{98F94BBF-FFBA-4079-B690-D26090172E32}|CalamitySouls.csproj|solutionrelative:effects\\cosmiceffect.fx||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TrailEffect.fx",
+              "DocumentMoniker": "D:\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CalamitySouls\\Effects\\TrailEffect.fx",
+              "RelativeDocumentMoniker": "Effects\\TrailEffect.fx",
+              "ToolTip": "D:\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CalamitySouls\\Effects\\TrailEffect.fx",
+              "RelativeToolTip": "Effects\\TrailEffect.fx",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-14T05:06:58.02Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FearmongerTimeFreezeRegister.cs",
+              "DocumentMoniker": "D:\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CalamitySouls\\Effects\\FearmongerTimeFreezeRegister.cs",
+              "RelativeDocumentMoniker": "Effects\\FearmongerTimeFreezeRegister.cs",
+              "ToolTip": "D:\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CalamitySouls\\Effects\\FearmongerTimeFreezeRegister.cs",
+              "RelativeToolTip": "Effects\\FearmongerTimeFreezeRegister.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-14T05:06:53.57Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BlindRegister.cs",
+              "DocumentMoniker": "D:\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CalamitySouls\\Effects\\BlindRegister.cs",
+              "RelativeDocumentMoniker": "Effects\\BlindRegister.cs",
+              "ToolTip": "D:\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CalamitySouls\\Effects\\BlindRegister.cs",
+              "RelativeToolTip": "Effects\\BlindRegister.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-14T05:06:39.433Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BlindScreenShader.cs",
+              "DocumentMoniker": "D:\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CalamitySouls\\Effects\\BlindScreenShader.cs",
+              "RelativeDocumentMoniker": "Effects\\BlindScreenShader.cs",
+              "ToolTip": "D:\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CalamitySouls\\Effects\\BlindScreenShader.cs",
+              "RelativeToolTip": "Effects\\BlindScreenShader.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-14T05:06:16.603Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CosmicEffect.fx",
+              "DocumentMoniker": "D:\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CalamitySouls\\Effects\\CosmicEffect.fx",
+              "RelativeDocumentMoniker": "Effects\\CosmicEffect.fx",
+              "ToolTip": "D:\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CalamitySouls\\Effects\\CosmicEffect.fx",
+              "RelativeToolTip": "Effects\\CosmicEffect.fx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-14T05:06:14.679Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

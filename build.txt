@@ -1,0 +1,6 @@
+author = Plantare(BiliBili@世纪小花) | 1.4 移植
+version = 1.0.4.0
+displayName = [Unofficial] Calamity's Souls
+homepage = 
+modReferences = CalamityMod, CalamityPlantation
+sortAfter = CalamityMod

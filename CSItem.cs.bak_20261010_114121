@@ -1,0 +1,214 @@
+using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using Microsoft.Xna.Framework.Graphics;
+using static Terraria.ModLoader.ModContent;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
+using CalamitySouls.Projectiles;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Magic;
+using System.Collections.Generic;
+using CalamitySouls.Items.BossLoots;
+using CalamityMod;
+
+namespace CalamitySouls
+{
+    public class CSItem : GlobalItem
+    {
+        public override bool? UseItem(Item item, Player player)
+        {
+            return CSPlayerEffects.UseItem(item, player);
+        }
+        public override float UseTimeMultiplier(Item item, Player player)
+        {
+            CSPlayer mplayer = player.CS();
+            float Multiplier = 1f;
+            if (item.damage > 0) Multiplier *= mplayer.WeaponFireRateBoost;
+            return Multiplier;
+        }
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (Main.LocalPlayer.CS().AuricWeaponBoost)
+            {
+                Color AuricGold = Color.Lerp(Main.DiscoColor, Color.Gold, 0.75f);
+                if (item.type == 0 || item.type == ItemType<DevilsDevastation>() || item.type == ItemType<DarkSpark>()
+                    || item.type == ItemType<Keelhaul>() || item.type == ItemType<PhantasmalRuin>())
+                {
+                    foreach (TooltipLine line in tooltips)
+                    {
+                        if (line.Mod == "Terraria" && line.Name == "ItemName")
+                        {
+                            line.OverrideColor = AuricGold;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (item.type == ItemID.BatHook && (!NPC.downedHalloweenKing || !NPC.downedHalloweenTree))
+            {
+                foreach(TooltipLine line in tooltips)
+                {
+                    if (line.Mod == "Terraria" && line.Name == "Equipable")
+                    {
+                        line.Text += "\nSpeed is nerved before pumpkin moon is defeated";
+                        break;
+                    }
+                }
+            }
+        
+                    }
+        public override float UseSpeedMultiplier(Item item, Player player)
+        {
+            if (player.CS().AuricWeaponBoost)
+            {
+                if (item.type == 0) return 1.5f;
+            }
+            return 1f;
+        }
+        public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (player.CS().AuricWeaponBoost && item.type == 0)
+            {
+                modifiers.FinalDamage *= 20f;
+            }
+        }
+        public override bool CanUseItem(Item item, Player player)
+        {
+            if (item.type == 0)
+            {
+                if (player.CS().AuricWeaponBoost)
+                {
+                    item.scale = 2f;
+                    item.UseSound = SoundID.Item71;
+                }
+                else
+                {
+                    item.scale = 1f;
+                    item.UseSound = SoundID.Item1;
+                }
+            }
+            return true;
+        }
+        public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
+        {
+            // 1.4：Shoot 已直接提供 Vector2 velocity
+            if (player.CS().AuricWeaponBoost)
+            {
+                if (item.type == 0)
+                {
+                    type = 0;
+                    Projectile slash = Projectile.NewProjectileDirect(null, position, velocity * 2f, type, damage * 4, 0f, player.whoAmI);
+                    slash.penetrate = -1;
+                    slash.extraUpdates = 4;
+                    slash.usesLocalNPCImmunity = true;
+                    slash.localNPCHitCooldown = 45;
+                    slash.timeLeft = 300;
+                    return false;
+                }
+                if (item.type == ItemType<DevilsDevastation>())
+                {
+                    Projectile fork = Projectile.NewProjectileDirect(null, position, velocity, type, damage * 15, knockBack * 3f, player.whoAmI);
+                    fork.penetrate = -1;
+                    fork.localNPCHitCooldown = 60;
+                    fork.usesLocalNPCImmunity = true;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Vector2 pos = position - Vector2.Normalize(velocity) * 960f + new Vector2(Main.rand.Next(-300, 301), Main.rand.Next(-300, 301));
+                        Vector2 velo = Vector2.Normalize(Main.MouseWorld - pos) * 25f;
+                        Projectile.NewProjectileDirect(null, pos, velo, ProjectileType<CSPlaceholder>() , damage * 5, knockBack, player.whoAmI);
+                    }
+                    return false;
+                }
+                if (item.type == ItemType<Keelhaul>())
+                {
+                    damage *= 50;
+                    return true;
+                }
+                if (item.type == ItemType<PhantasmalRuin>())
+                {
+                    damage *= 3;
+                    Projectile pr = Projectile.NewProjectileDirect(null, position, velocity, type, damage, knockBack, player.whoAmI);
+                    pr.extraUpdates = (pr.extraUpdates + 1) * 2 - 1;
+                    pr.timeLeft *= 2;
+                    return false;
+                }
+            }
+            return true;
+        }
+        public override void UpdateAccessory(Item item, Player player, bool hideVisual)
+        {
+            CSPlayer mplayer = player.CS();
+            CalamityMod.CalPlayer.CalamityPlayer cplayer = player.GetModPlayer<CalamityPlayer>();
+            if (mplayer.MolluskPrefix > 0) 
+            {
+                if (item.prefix == PrefixID.Menacing) mplayer.AllDamageByMult += 0.02f;
+                if (item.prefix == PrefixID.Lucky) mplayer.CritDamageMultipier += 0.02f;
+                if (item.prefix == PrefixID.Quick2) mplayer.MyMoveSpeedMult += 0.04f;
+                if (item.prefix == PrefixID.Violent) mplayer.WeaponFireRateBoost += 0.04f;
+                if (item.prefix == PrefixID.Warding)
+                {
+                    cplayer.contactDamageReduction += 0.02f;
+                    cplayer.projectileDamageReduction += 0.02f;
+                }
+                if (item.prefix == PrefixID.Arcane) player.manaCost -= 0.05f;
+                if (item.prefix > 0 && false) player.GetModPlayer<CalamityPlayer>().rogueVelocity += 0.08f;
+            }
+        }
+        public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            if (Main.LocalPlayer.CS().MolluskPrefix > 0)
+            {
+                int SignFrame = -1;
+                if (item.prefix == PrefixID.Menacing) SignFrame = 0;
+                else if (item.prefix == PrefixID.Lucky) SignFrame = 1;
+                else if (item.prefix == PrefixID.Quick2) SignFrame = 2;
+                else if (item.prefix == PrefixID.Violent) SignFrame = 3;
+                else if (item.prefix == PrefixID.Warding) SignFrame = 4;
+                else if (item.prefix == PrefixID.Arcane) SignFrame = 5;
+                else if (item.prefix > 0 && false) SignFrame = 6;
+                if (SignFrame != -1)
+                {
+                    Texture2D texture = CSTexture.MolluskSign;
+                    Rectangle sRect = new Rectangle(0, SignFrame * 22, 20, 20);
+                    spriteBatch.End();
+                    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+                    spriteBatch.Draw(texture, position + new Vector2(25), sRect, Color.White, 0f, new Vector2(10, 10), 0.75f, SpriteEffects.None, 0f);
+                    spriteBatch.End();
+                    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.UIScaleMatrix);
+                }
+            }
+        }
+        public static void SwitchTexture()
+        {
+            if (Main.LocalPlayer.CS().AuricWeaponBoost)
+            {
+                TextureAssets.Item[ItemType<DevilsDevastation>()] = ModContent.Request<Texture2D>("CalamitySouls/Extras/AuricWeapon2");
+                TextureAssets.Item[ItemType<DarkSpark>()] = ModContent.Request<Texture2D>("CalamitySouls/Extras/AuricWeapon3");
+                TextureAssets.Item[ItemType<Keelhaul>()] = ModContent.Request<Texture2D>("CalamitySouls/Extras/AuricWeapon4");
+                TextureAssets.Item[ItemType<PhantasmalRuin>()] = ModContent.Request<Texture2D>("CalamitySouls/Extras/AuricWeapon5");
+                TextureAssets.Projectile[ProjectileType<KeelhaulBubble>()] = ModContent.Request<Texture2D>("CalamitySouls/Extras/AuricProj4-1");
+                TextureAssets.Projectile[ProjectileType<KeelhaulGeyserBottom>()] = ModContent.Request<Texture2D>("CalamitySouls/Extras/AuricProj4-2");
+                TextureAssets.Projectile[ProjectileType<KeelhaulGeyserTop>()] = ModContent.Request<Texture2D>("CalamitySouls/Extras/AuricProj4-3");
+            }
+            else
+            {
+                TextureAssets.Item[ItemType<DevilsDevastation>()] = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/DevilsDevastation");
+                TextureAssets.Item[ItemType<DarkSpark>()] = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/DarkSpark");
+                TextureAssets.Item[ItemType<Keelhaul>()] = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/Keelhaul");
+                TextureAssets.Item[ItemType<PhantasmalRuin>()] = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/PhantasmalRuin");
+                TextureAssets.Projectile[ProjectileType<KeelhaulBubble>()] = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/KeelhaulBubble");
+                TextureAssets.Projectile[ProjectileType<KeelhaulGeyserBottom>()] = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/KeelhaulGeyserBottom");
+                TextureAssets.Projectile[ProjectileType<KeelhaulGeyserTop>()] = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/KeelhaulGeyserTop");
+            }
+            if (Main.LocalPlayer.CS().sgCore) TextureAssets.Item[ItemID.SlimySaddle] = ModContent.Request<Texture2D>("CalamitySouls/Extras/MountSlimeGodItem");
+            else TextureAssets.Item[ItemID.SlimySaddle] = ModContent.Request<Texture2D>("Terraria/Images/Item_2430");
+        }
+    }
+}

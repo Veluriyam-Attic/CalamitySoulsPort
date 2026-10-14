@@ -1,0 +1,2347 @@
+Keybinds: {
+	"Brimflame enchant hotkey.DisplayName": Brimflame enchant hotkey
+	"Fearmonger Frigid Area hotkey.DisplayName": Fearmonger  Frigid  Area hotkey
+	"Fearmonger Mark hotkey.DisplayName": Fearmonger  Mark hotkey
+	"Aerospec dash hotkey (V104).DisplayName": Aerospec dash hotkey ( V104)
+	"Reaver effect switch key (V104).DisplayName": Reaver effect switch key ( V104)
+	"Fearmonger time freeze hotkey (V104).DisplayName": Fearmonger time freeze hotkey ( V104)
+	"Godslayer dash hotkey (V104).DisplayName": Godslayer dash hotkey ( V104)
+	"Affliction fear hotkey (V104).DisplayName": Affliction fear hotkey ( V104)
+	"Demonshade enrage hotkey (V104).DisplayName": Demonshade enrage hotkey ( V104)
+}
+
+Items: {
+	PrismaticBlade: {
+		DisplayName: 光棱剑
+		Tooltip: 击中敌人时释放额外的光波\n‘强调一遍，它不是召唤武器’
+	}
+
+	AcidivineHelmet: {
+		DisplayName: 圣蚀头盔
+		Tooltip: +8%伤害，+2%暴击
+	}
+
+	AcidivineBreastplate: {
+		DisplayName: 圣蚀胸甲
+		Tooltip: 轻便的护甲，挥舞武器很方便\n+10%伤害，+5%武器使用速度
+	}
+
+	AcidivineLeggings: {
+		DisplayName: 圣蚀护腿
+		Tooltip: 超凡的速度！\n+30%移动速度
+	}
+
+	EnchAerospec: {
+		DisplayName: 天蓝魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchAstral: {
+		DisplayName: 幻星魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			i
+			'''
+	}
+
+	EnchAuric: {
+		DisplayName: 金源魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			'''
+	}
+
+	EnchBloodflare: {
+		DisplayName: 血炎魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchBrimflame: {
+		DisplayName: 硫火魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			'''
+	}
+
+	EnchDaedalus: {
+		DisplayName: 代达罗斯魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchDemonshade: {
+		DisplayName: 魔影魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			'''
+	}
+
+	EnchDesertprowler: {
+		DisplayName: 沙漠游侠魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			'''
+	}
+
+	EnchEmpyrean: {
+		DisplayName: 皇天魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchFathom: {
+		DisplayName: 幻渊鱼群魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchFearmonger: {
+		DisplayName: 神惧者魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			i
+			i
+			'''
+	}
+
+	EnchGodslayer: {
+		DisplayName: 弑神者魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchGodslayerAncient: {
+		DisplayName: 远古弑神者魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			'''
+	}
+
+	EnchHydrothermic: {
+		DisplayName: 渊泉魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchMollusk: {
+		DisplayName: 软壳魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			i
+			'''
+	}
+
+	EnchOmega: {
+		DisplayName: 欧米伽蓝魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchPlaguebringer: {
+		DisplayName: 瘟疫使者魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchPlagueReaper: {
+		DisplayName: 瘟疫收割者魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchPrismatic: {
+		DisplayName: 光棱魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			'''
+	}
+
+	EnchReaver: {
+		DisplayName: 掠夺者魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			i
+			'''
+	}
+
+	EnchSilva: {
+		DisplayName: 始源林海魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			i
+			'''
+	}
+
+	EnchSnowruffian: {
+		DisplayName: 雪境暴徒魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			'''
+	}
+
+	EnchStatigel: {
+		DisplayName: 斯塔提斯魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchSulphurous: {
+		DisplayName: 硫磺海魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchTarragon: {
+		DisplayName: 龙蒿魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			'''
+	}
+
+	EnchTitan: {
+		DisplayName: 泰坦之心魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchUmbraphile: {
+		DisplayName: 日影魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			'''
+	}
+
+	EnchVictide: {
+		DisplayName: 胜潮魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			'''
+	}
+
+	EnchWulfrum: {
+		DisplayName: 钨钢魔石
+		Tooltip:
+			'''
+			0
+			i
+			i
+			i
+			'''
+	}
+
+	ForceAnnihilation: {
+		DisplayName: 湮灭之力
+		Tooltip: ""
+	}
+
+	ForceCreature: {
+		DisplayName: 生灵之力
+		Tooltip: ""
+	}
+
+	ForceRevolution: {
+		DisplayName: 起义之力
+		Tooltip: ""
+	}
+
+	ForceTechnical: {
+		DisplayName: 科技之力
+		Tooltip: ""
+	}
+
+	ForceTyranny: {
+		DisplayName: 暴政之力
+		Tooltip: ""
+	}
+
+	CoreofSlimeGod: {
+		DisplayName: 史莱姆之神核心
+		Tooltip:
+			'''
+			把你的史莱姆坐骑转化为史莱姆神坐骑
+			它的水平移速被大大增加，而且可以飞行一段距离
+			脑瘫模式专属
+			'''
+	}
+
+	JawoftheDesert: {
+		DisplayName: 荒漠之颚
+		Tooltip:
+			'''
+			+500%挖掘速度
+			你的镐子多造成100%伤害
+			脑瘫模式专属
+			'''
+	}
+
+	ManicTalisman: {
+		Tooltip:
+			'''
+			激活脑瘫模式，让NPC的速度和ai速度乘150%，减少30%NPC受到伤害，你多受到50%伤害
+			你的肾上腺素伤害增加50%，你的防御阻挡0.5伤害而非0.75
+			击败任意boss前且没有boss存在时，NPC的AI速度和免伤增幅被取消
+			只能在复仇模式下使用
+			'''
+		DisplayName: 欠抽护符
+	}
+
+	Weapons: {
+		Rogue: {
+			IcicleDagger: {
+				DisplayName: 冰刺投刀
+				Tooltip: ""
+			}
+		}
+	}
+
+	SoulCalamity: {
+		DisplayName: 灾厄之魂
+		Tooltip: ""
+	}
+
+	SpellAquatic: {
+		DisplayName: 渊洋之咒
+		Tooltip: "0"
+	}
+
+	SpellBetrayal: {
+		DisplayName: 背叛之咒
+		Tooltip: "0"
+	}
+
+	SpellDespair: {
+		DisplayName: 绝望之咒
+		Tooltip: "0"
+	}
+
+	SpellEleum: {
+		DisplayName: 冰川之咒
+		Tooltip: "0"
+	}
+
+	SpellGlobe: {
+		DisplayName: 寰球之咒
+		Tooltip: "0"
+	}
+
+	SpellHeavenshade: {
+		DisplayName: 天影之咒
+		Tooltip: "0"
+	}
+
+	SpellOasis: {
+		DisplayName: 绿洲之咒
+		Tooltip: "0"
+	}
+
+	SpellPlague: {
+		DisplayName: 瘟疫之咒
+		Tooltip: "0"
+	}
+
+	SpellStarlight: {
+		DisplayName: 星光之咒
+		Tooltip: "0"
+	}
+
+	AquaticfrogFin: {
+		DisplayName: 渊洋蛙鳍
+		Tooltip:
+			'''
+			+48%跳跃速度，获得连跳和一个海啸二段跳
+			可以在液体中自由移动
+			+5%近战速度，+5%远程暴击，-7.5%蓝耗，+1召唤栏和7.5%盗贼伤害
+			'''
+	}
+
+	BasicEnch.DisplayName: 基础魔石
+	BasicSpell.DisplayName: 基础之咒
+
+	Changelog: {
+		DisplayName: 改动日志
+		Tooltip:
+			'''
+			使用来观看改动日志
+			全英文，建议自行翻译（太屑被揍死）
+			'''
+	}
+
+	CovidVaccines: {
+		DisplayName: 中国新冠疫苗
+		Tooltip:
+			'''
+			医生：“中国新冠疫苗提供74.8%的保护。”
+			观众：“才75%？这么少的吗？”
+			医生：“这还少？80%不感染，感染99%不发病，发病100%不转重症。”
+			医生：“换句话说，80%闪避几率，加99%免伤还免疫暴击。”
+			医生：“这妥妥神器啊！”
+			所以就有了这个物品
+			80%几率闪避攻击，减少99%受到伤害并且100%不会被暴击
+			'''
+	}
+
+	CrystalTreads: {
+		DisplayName: 水晶靴
+		Tooltip:
+			'''
+			超凡的速度！
+			提供一个冰霜冲刺
+			增加20%跳跃速度
+			但是，你的防御减少10
+			'''
+	}
+
+	DemonshadeWorkbench: {
+		DisplayName: 魔影坩埚
+		Tooltip: ""
+	}
+
+	EctoFish: {
+		DisplayName: 灵气鱼
+		Tooltip: 右键获取一些灵气
+	}
+
+	EvilTreads: {
+		DisplayName: 邪恶之靴
+		Tooltip:
+			'''
+			超凡的速度！
+			你处于慌乱状态
+			+20魔力上限
+			'''
+	}
+
+	FishofFright: {
+		DisplayName: 恐惧之鱼
+		Tooltip: 右键获取一些魂
+	}
+
+	FishofMight: {
+		DisplayName: 力量之鱼
+		Tooltip: 右键获取一些魂
+	}
+
+	FishofSight: {
+		DisplayName: 视域之鱼
+		Tooltip: 右键获取一些魂
+	}
+
+	FrostPaintgun: {
+		DisplayName: 雪花彩弹枪
+		Tooltip: 射出造成霜火的冰雪染料球
+	}
+
+	GodlySpikeNecklace: {
+		DisplayName: 神明之刺项链
+		Tooltip: +150穿甲和+15%伤害
+	}
+
+	ImpurityWithinOnesBody: {
+		DisplayName: 内在邪秽
+		Tooltip: 地球之怒
+	}
+
+	InfestedfrogClaw: {
+		DisplayName: 感染蛙爪
+		Tooltip:
+			'''
+			+48%跳跃速度，获得连跳和一个海啸二段跳
+			获得攀爬墙壁的能力
+			+5%免伤
+			'''
+	}
+
+	LethesGift: {
+		DisplayName: 忘川的礼物
+		Tooltip:
+			'''
+			你的武器根据伤害类型射出不同种类的弹幕
+			部分武器无法收到此加成
+			你的攻击造成着火
+			'''
+	}
+
+	ManaMedallion: {
+		DisplayName: 魔力徽章
+		Tooltip: 放在背包中，给予自动喝魔力药效果
+	}
+
+	MoltenNecklace: {
+		DisplayName: 熔岩项链
+		Tooltip: +20穿甲
+	}
+
+	MonolithRay: {
+		DisplayName: 神话之书
+		Tooltip: 射出强大的幻星射线
+	}
+
+	MonolithStick: {
+		DisplayName: 感染木棍
+		Tooltip: 看上去这种木头硬到难以加工...不过它已经可以作为一个好武器了
+	}
+
+	PeerlessWindGod: {
+		DisplayName: 无瑕之风
+		Tooltip: ‘我会放水的’
+	}
+
+	PhantoFish: {
+		DisplayName: 幻魂鱼
+		Tooltip: 右键获取一些幻魂
+	}
+
+	PortableFart: {
+		DisplayName: 便携屁
+		Tooltip: 在背包中收藏，可以像绿马蹄气球一样工作
+	}
+
+	PrismaticPrism: {
+		DisplayName: 光棱镜
+		Tooltip:
+			'''
+			召唤一个在你周围环绕，改变敌对弹幕方向的棱镜
+			当穿着全套光棱套时，取消光棱套的非魔法伤害减少效果
+			'''
+	}
+
+	PrismaticTrailToggler: {
+		DisplayName: 光棱预判线开关
+		Tooltip: 在背包中收藏，关闭光棱魔石的预判线效果
+	}
+
+	ReleaseoftheId: {
+		DisplayName: 情绪释放
+		Tooltip: "514"
+	}
+
+	SandsharkNecklace: {
+		DisplayName: 沙鲨项链
+		Tooltip: +50穿甲和+8%伤害
+	}
+
+	SeafrogLeg: {
+		DisplayName: 海蛙腿
+		Tooltip: 免疫摔伤，+48%跳跃速度，获得连跳和一个海啸二段跳
+	}
+
+	StinkCushion: {
+		DisplayName: 恶臭坐垫
+		Tooltip:
+			'''
+			TMD臭死了
+			提供一个臭屁二段跳
+			'''
+	}
+
+	SuspiciousLookingBox: {
+		DisplayName: 可疑的盒子
+		Tooltip:
+			'''
+			召唤一个强大的渔具盒
+			它在击败血肉之墙，机械boss，世纪之花和月球领主后都会增强
+			染料商会售卖这个，他从哪里搞到的资源？
+			'''
+	}
+
+	SuspiciousLookingBoxInfinite: {
+		DisplayName: 可疑的盒子
+		Tooltip:
+			'''
+			召唤一个强大的渔具盒
+			可以无限使用，可以同时召唤不止一个盒子
+			'''
+	}
+
+	TheSorber: {
+		DisplayName: 阴阳化功石
+		Tooltip:
+			'''
+			阴阳吸星石的简化版
+			+12%移速，+24%跳跃速度
+			+20最大生命和最大魔力，+5%免伤
+
+			'''
+	}
+
+	UnholyFish: {
+		DisplayName: 不洁鱼
+		Tooltip: 右键获取一些精华
+	}
+
+	BurstLeaf.Tooltip: ""
+	DamageLeaf.Tooltip: ""
+	EnergyLeaf.Tooltip: ""
+	ExplosionLeaf.Tooltip: ""
+	HealLeaf.Tooltip: ""
+	ImmuLeaf.Tooltip: ""
+	RegenLeaf.Tooltip: ""
+	ShieldLeaf.Tooltip: ""
+
+	EnchAcidivineV104: {
+		DisplayName: 圣蚀魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchAerospecV104: {
+		DisplayName: 天蓝魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchAstralV104: {
+		DisplayName: 幻星魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchAuricV104: {
+		DisplayName: 金源魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchBloodflareV104: {
+		DisplayName: 血炎魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchBrimflameV104: {
+		DisplayName: 硫火魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchDaedalusV104: {
+		DisplayName: 代达罗斯魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchDemonshadeV104: {
+		DisplayName: 魔影魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchDesertprowlerV104: {
+		DisplayName: 沙漠游侠魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchEmpyreanV104: {
+		DisplayName: 皇天魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchExoV104: {
+		DisplayName: 星流魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchExterminationV104: {
+		DisplayName: 绝灭魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchFathomV104: {
+		DisplayName: 幻渊鱼群魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchFearmongerV104: {
+		DisplayName: 神惧者魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchForbiddenV104: {
+		DisplayName: 禁戒魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchGodslayerAncientV104: {
+		DisplayName: 远古弑神者魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchGodslayerV104: {
+		DisplayName: 弑神者魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchHydrothermicV104: {
+		DisplayName: 渊泉魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchLuxAstriV104: {
+		DisplayName: 星光魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchMolluskV104: {
+		DisplayName: 软壳魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchOmegaV104: {
+		DisplayName: 欧米伽蓝魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchPlaguebringerV104: {
+		DisplayName: 瘟疫使者魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchPlagueReaperV104: {
+		DisplayName: 瘟疫收割者魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchPrismaticV104: {
+		DisplayName: 光棱魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchReaverV104: {
+		DisplayName: 掠夺者魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchSilvaV104: {
+		DisplayName: 始源林海魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchSnowruffianV104: {
+		DisplayName: 雪境暴徒魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchStatigelV104: {
+		DisplayName: 斯塔提斯魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchSulphurousV104: {
+		DisplayName: 硫磺魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchTarragonV104: {
+		DisplayName: 龙蒿魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchTitanV104: {
+		DisplayName: 泰坦之心魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchUmbraphileV104: {
+		DisplayName: 日影魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchVictideV104: {
+		DisplayName: 胜潮魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	EnchWulfrumV104: {
+		DisplayName: 钨钢魔石（新版）
+		Tooltip: "[c/FFA3D3:---魔石（新版）---]"
+	}
+
+	ForceAnnihilationV104: {
+		DisplayName: 湮灭之力（新版）
+		Tooltip: "[c/36A442:---力（新版）---]"
+	}
+
+	ForceCreatureV104: {
+		DisplayName: 生灵之力（新版）
+		Tooltip: "[c/36A442:---力（新版）---]"
+	}
+
+	ForceRevolutionV104: {
+		DisplayName: 起义之力（新版）
+		Tooltip: "[c/36A442:---力（新版）---]"
+	}
+
+	ForceTechnicalV104: {
+		DisplayName: 科技之力（新版）
+		Tooltip: "[c/36A442:---力（新版）---]"
+	}
+
+	ForceTyrannyV104: {
+		DisplayName: 暴政之力（新版）
+		Tooltip: "[c/36A442:---力（新版）---]"
+	}
+
+	LanternoftheSoulV104: {
+		DisplayName: 遗境魂灯
+		Tooltip: ""
+	}
+
+	MeldiateBarV104: {
+		DisplayName: 冥思构造体
+		Tooltip: ""
+	}
+
+	StardustV104: {
+		DisplayName: 星尘
+		Tooltip: ""
+	}
+
+	TarragonLeafV104: {
+		DisplayName: 龙蒿增益叶片
+		Tooltip: 为什么它的堆叠上限必须是 1？自己想去吧
+	}
+
+	TheEmpyreanV104: {
+		DisplayName: 神之风箱
+		Tooltip: ""
+	}
+
+	TomeofFatesV104: {
+		DisplayName: 命运之手
+		Tooltip: ""
+	}
+
+	XerocPitchforkV104: {
+		DisplayName: 半影裂片
+		Tooltip: ""
+	}
+
+	XerocsGreatswordV104: {
+		DisplayName: 熵阔剑
+		Tooltip: ""
+	}
+
+	SoulCalamityV104: {
+		DisplayName: 灾厄之魂（新版）
+		Tooltip: "[c/0072FF:---组合魂（新版）---]"
+	}
+
+	SoulCommunitiousV104: {
+		DisplayName: 全能之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulDautlessiousV104: {
+		DisplayName: 无畏之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulDevotiousV104: {
+		DisplayName: 奉献之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulExpeditiousV104: {
+		DisplayName: 探寻之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulHornoriousV104: {
+		DisplayName: 荣光之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulInfinityV104: {
+		DisplayName: 无限之魂（新版）
+		Tooltip: "[c/0072FF:---组合魂（新版）---]"
+	}
+
+	SoulLeaderiousV104: {
+		DisplayName: 先驱之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulMenaciousV104: {
+		DisplayName: 险恶之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulMysteriousV104: {
+		DisplayName: 神秘之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulPreciousV104: {
+		DisplayName: 精准之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulReclusiousV104: {
+		DisplayName: 隐者之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulSparkliousV104: {
+		DisplayName: 闪烁之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulUnitiousV104: {
+		DisplayName: 团结之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+
+	SoulUnlimityV104: {
+		DisplayName: 超限之魂（新版）
+		Tooltip: "[c/0072FF:---组合魂（新版）---]"
+	}
+
+	SoulVelocitiousV104: {
+		DisplayName: 速度之魂（新版）
+		Tooltip: "[c/0072FF:---魂（新版）---]"
+	}
+}
+
+Tiles: {
+	DemonshadeWorkbenchTile: {
+		MapEntry: {
+			$parentVal: 魔影坩埚
+			0: 魔
+			1: 影
+			2: 坩
+			3: 埚
+		}
+	}
+}
+
+Projectiles: {
+	AeroBlade.DisplayName: 天蓝之刃
+	AnnihilationOption.DisplayName: 子机
+	AuricFlash.DisplayName: 金源冲击
+	BloodOption.DisplayName: 子机
+	EleumCrystalShard.DisplayName: 冰川水晶碎片
+	EmpyreanSpectre.DisplayName: 皇天幻影
+	FathomFish.DisplayName: 幻渊小鱼
+	FriendlyCalamitas.DisplayName: 友好的终灾
+	FrigidArea.DisplayName: 霜冻区域
+	IdentityCard.DisplayName: 本我符卡
+	IdentityHeart.DisplayName: 本我之心
+	ImpurityLaser.DisplayName: 邪秽激光
+	ImpurityOrb.DisplayName: 邪秽球
+	PeerlessBullet.DisplayName: 无双弹
+	PeerlessWind.DisplayName: 无双之风
+	SnowflakeDecoration.DisplayName: 雪花
+	AeroFeatherV104.DisplayName: 羽毛
+	AuricFlashProjV104.DisplayName: 金源冲击
+	BrimstoneTentacleV104.DisplayName: 硫火触手
+	CalPetV104.DisplayName: 迷你灾厄
+	EmpyreanSpectreV104.DisplayName: 皇天幻影
+	FathomFishV104.DisplayName: 幻渊小鱼
+	GodslayerDoGV104.DisplayName: 神明吞噬者
+	HellfireExplosionFriendlyV104.DisplayName: 爆炸
+	LuxAstriPunchV104.DisplayName: 白金之拳（新版）
+	MeldGreatswordBigProjectileV104.DisplayName: 融铸巨剑（大）
+	MeldGreatswordMediumProjectileV104.DisplayName: 融铸巨剑（中）
+	MeldGreatswordSmallProjectileV104.DisplayName: 融铸巨剑（小）
+	OmegaTenacleV104.DisplayName: 欧米伽之触
+	ReaverHealOrbV104.DisplayName: 治疗
+	SealedSingularityBlackholeV104.DisplayName: 黑洞
+	VictideSeastarV104.DisplayName: 胜潮海星（新版）
+	XerocBlastV104.DisplayName: 泽洛克冲击
+	XerocBubbleV104.DisplayName: 泽洛克气泡
+	XerocFireV104.DisplayName: 泽洛克火焰
+	XerocOrbV104.DisplayName: 泽洛克球
+	XerocStarV104.DisplayName: 泽洛克之星
+	AstralSatelliteMinionV104.DisplayName: 星界卫星
+	ExoShieldShardV104.DisplayName: 圣金源护盾碎片
+	FallenAstralStarV104.DisplayName: 落星
+	PlaguebringerNukeV104.DisplayName: 瘟疫使者核弹
+	PrismaticPrismProjV104.DisplayName: 棱彩棱镜
+	DaedalusIcicleV104.DisplayName: 代达罗斯冰锥
+	DaedalusJavelinV104.DisplayName: 代达罗斯标枪
+	DaedalusTrueCrystalV104.DisplayName: 代达罗斯真晶
+	SulphurousAreaV104.DisplayName: 硫海剧毒区域（新版）
+}
+
+NPCs: {
+	MagnificentFishbox.DisplayName:
+		'''
+		无敌的
+		勇敢的
+		性感的
+		神秘的
+		迷人的
+		神气的
+		勤勉的
+		强势的
+		华丽的
+		激情的
+		可怕的
+		漂亮的
+		强大的
+		鱼盒子
+		'''
+	MagnificentFishes.DisplayName: 鱼
+	WulfrumBase.DisplayName: 钨钢基地
+	WulfrumProbe.DisplayName: 钨钢探测器
+	WulfrumFloatingBoat.DisplayName: Wulfrum Floating Boat
+}
+
+Buffs: {
+	nCoreCooldown: {
+		DisplayName: 星云核复活冷却
+		Description: 你的星云核复活正在充能
+	}
+
+	AeroBladeBuff: {
+		DisplayName: 天蓝之刃
+		Description: Mods.CalamitySouls.Buffs.AeroBladeBuff.Description
+	}
+
+	AstralDivision: {
+		Description: 你被一分为二
+		DisplayName: 幻星分裂
+	}
+
+	AstralImmunity: {
+		Description: 你不会受到伤害
+		DisplayName: 幻星无敌
+	}
+
+	AuricReviveCooldown: {
+		Description: 你的金源冲击正在充能
+		DisplayName: 金源冲击冷却
+	}
+
+	BrimFrenzy: {
+		Description:
+			'''
+			你使用了硫火的力量。
+			你的攻击多造成25%伤害
+			'''
+		DisplayName: 硫火暴乱
+	}
+
+	BrimFrenzyCooldown: {
+		Description: 你不能使用硫火的力量。
+		DisplayName: 硫火冷却
+	}
+
+	DaedalusEvadeCooldown: {
+		Description: 你的代达罗斯闪避正在冷却
+		DisplayName: 代达罗斯闪避冷却
+	}
+
+	DesertDodgeBuff: {
+		Description:
+			'''
+			你掌握着沙尘暴的威力
+			闪避一次任意伤害
+			'''
+		DisplayName: 沙暴闪避
+	}
+
+	DesertDodgeCD: {
+		Description: 你被暂时禁止使用沙暴的能力
+		DisplayName: 沙暴闪避冷却
+	}
+
+	FearmongerArea: {
+		DisplayName: 霜冻区域
+		Description: Mods.CalamitySouls.Buffs.FearmongerArea.Description
+	}
+
+	FearmongerAreaCooldown: {
+		DisplayName: 霜冻区域冷却
+		Description: Mods.CalamitySouls.Buffs.FearmongerAreaCooldown.Description
+	}
+
+	FearmongerMarkCooldown: {
+		DisplayName: 目标切换冷却
+		Description: Mods.CalamitySouls.Buffs.FearmongerMarkCooldown.Description
+	}
+
+	Frozen: {
+		Description:
+			'''
+			你被冰冻了
+			+12防御
+			'''
+		DisplayName: 冰冻
+	}
+
+	GodslayerAncientOtherworld: {
+		Description: 你的移速翻倍，高速移动时你处于无敌状态且能反弹弹幕
+		DisplayName: 异界
+	}
+
+	GodslayerCrit: {
+		Description: 你的攻击有50%几率暴击
+		DisplayName: 弑神者暴击
+	}
+
+	GodslayerDefense: {
+		Description: +80防御
+		DisplayName: 弑神者防御
+	}
+
+	GodslayerResource: {
+		Description: 快速回复生命和魔力
+		DisplayName: 弑神者资源
+	}
+
+	GodslayerSpeed: {
+		Description: +50%武器使用速度
+		DisplayName: 弑神者速度
+	}
+
+	GodslayerSplit: {
+		Description: 你的暴击多造成50%伤害
+		DisplayName: 弑神者暴击
+	}
+
+	HydrothermicReviveCooldown: {
+		Description: 你的渊泉回复正在充能
+		DisplayName: 渊泉回复充能
+	}
+
+	IdentityMinionBuff: {
+		Description: 本我的释放
+		DisplayName: 本我
+	}
+
+	SilvaInvulnerable: {
+		DisplayName: 林海无敌
+		Description: Mods.CalamitySouls.Buffs.SilvaInvulnerable.Description
+	}
+
+	SilvaRecharge: {
+		DisplayName: 林海充能
+		Description: Mods.CalamitySouls.Buffs.SilvaRecharge.Description
+	}
+
+	TarragonCloak: {
+		Description: 敌人伤害减少
+		DisplayName: 龙蒿保护
+	}
+
+	TarragonImmunity: {
+		Description: 你无敌了
+		DisplayName: 龙蒿无敌
+	}
+
+	TerminalMark: {
+		Description: 取消所有生物的无敌
+		DisplayName: 终末标记
+	}
+
+	UmbraphileUndetected: {
+		Description: 所有生物对你友好
+		DisplayName: 不可检测
+	}
+
+	AeroFatigueV104: {
+		DisplayName: 疲乏
+		Description: 你跳的太多了，现在很累
+	}
+
+	AuricFlashCooldownBuffV104: {
+		DisplayName: 金源冲击冷却
+		Description: 你的金源冲击正在充能
+	}
+
+	BrimFrenzyCooldownV104: {
+		DisplayName: 硫火冷却
+		Description: 你不能使用硫火的力量。
+	}
+
+	BrimFrenzyV104: {
+		DisplayName: 硫火暴乱
+		Description:
+			'''
+			你使用了硫火的力量。
+			你的攻击多造成35%伤害
+			'''
+	}
+
+	DaedalusEvadeCooldownV104: {
+		DisplayName: 代达罗斯闪避冷却
+		Description: 你的代达罗斯闪避正在充能
+	}
+
+	ExoShieldBuffV104: {
+		DisplayName: 力场（新版）
+		Description: 你受到伤害不会大于50
+	}
+
+	FearmongerFrostbiteBuffV104: {
+		DisplayName: 时光之殇
+		Description:
+			'''
+			时间冻结的代价
+			温度的本质，是分子热运动的剧烈程度
+			你冻结了除你之外物体时间，分子便慢了下来
+			因此，温度大大降低，你的生命值持续下降
+			继续下去的话恐怕会对你的身体造成不可逆转的损伤
+			'''
+	}
+
+	SilvaInvincibilityV104: {
+		DisplayName: 无敌
+		Description: 你不会受到任何伤害
+	}
+
+	SilvaPriceV104: {
+		DisplayName: 心灵破碎
+		Description: Mods.CalamitySouls.Buffs.SilvaPriceV104.Description
+	}
+
+	StatigelDamageBuffV104: {
+		DisplayName: 斯塔提斯伤害提升
+		Description: 增加12%伤害
+	}
+
+	UmbraphileUndetectedV104: {
+		DisplayName: 遁于暗影
+		Description: +10%武器使用速度
+	}
+}
+
+CSZh: {
+	ManicTalisman: {
+		DisplayName: 欠抽护符
+		Tooltip:
+			'''
+			激活脑瘫模式，让NPC的速度和ai速度乘150%，减少30%NPC受到伤害，你多受到50%伤害
+			你的肾上腺素伤害增加50%，你的防御阻挡0.5伤害而非0.75
+			击败任意boss前且没有boss存在时，NPC的AI速度和免伤增幅被取消
+			只能在复仇模式下使用
+			'''
+	}
+
+	CoreofSlimeGod: {
+		DisplayName: 史莱姆之神核心
+		Tooltip:
+			'''
+			把你的史莱姆坐骑转化为史莱姆神坐骑
+			它的水平移速被大大增加，而且可以飞行一段距离
+			脑瘫模式专属
+			'''
+	}
+
+	JawoftheDesert: {
+		DisplayName: 荒漠之颚
+		Tooltip:
+			'''
+			+500%挖掘速度
+			你的镐子多造成100%伤害
+			脑瘫模式专属
+			'''
+	}
+
+	IcicleDagger.DisplayName: 冰刺投刀
+
+	TarragonLeaves: {
+		BurstLeaf: 迸发之叶
+		DamageLeaf: 伤害之叶
+		EnergyLeaf: 能量之叶
+		ExplosionLeaf: 爆炸之叶
+		HealLeaf: 治疗之叶
+		ImmuLeaf: 免疫之叶
+		RegenLeaf: 再生之叶
+		ShieldLeaf: 护盾之叶
+	}
+
+	AstralRay.DisplayName: 幻星射线
+	CSPlaceholder.DisplayName: 占位弹幕
+	DaedalusIcicle.DisplayName: 代达罗斯冰锥
+	DaedalusJavelin.DisplayName: 代达罗斯标枪
+	DaedalusTrueCrystal.DisplayName: 代达罗斯真晶
+	FearmongerAreaProj.DisplayName: 神惧者领域
+	FrostPaintball.DisplayName: 霜冻漆弹
+	HeavenshadeStar.DisplayName: 天影之星
+	IcicleDaggerProj.DisplayName: 冰刺投刀
+	PeerlessWindGodProj.DisplayName: 无双风神
+	PlagueReaperWings.DisplayName: 瘟疫收割者之翼
+	PrismaticPrismProj.DisplayName: 光棱棱镜
+	SlimeGodMinion.DisplayName: 史莱姆之神仆从
+	SulphurousArea.DisplayName: 硫磺海域
+	TitanBooster.DisplayName: 泰坦推进器
+	WulfrumShield.DisplayName: 钨钢护盾
+	DaedalusIcicleV104.DisplayName: 代达罗斯冰锥
+	DaedalusJavelinV104.DisplayName: 代达罗斯标枪
+	DaedalusTrueCrystalV104.DisplayName: 代达罗斯真晶
+	SulphurousAreaV104.DisplayName: 硫海剧毒区域（新版）
+}
+
+Configs: {
+	CSConfigV104: {
+		DisplayName: 灾厄之魂 新版（v1.0.4.0）
+
+		Headers: {
+			Mods: {
+				CalamitySouls: {
+					Configs: {
+						CSConfigV104: {
+							Headers: {
+								NewEnch: Mods. Calamity Souls. Configs. C S Config V104. Headers. New Ench Header
+								NewForces: Mods. Calamity Souls. Configs. C S Config V104. Headers. New Forces Header
+								Soul_Communitious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Communitious Header
+								Soul_Dautlessious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Dautlessious Header
+								Soul_Hornorious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Hornorious Header
+								Soul_Precious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Precious Header
+								Soul_Expeditious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Expeditious Header
+								Soul_Leaderious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Leaderious Header
+								Soul_Menacious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Menacious Header
+								Soul_Devotious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Devotious Header
+								Soul_Velocitious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Velocitious Header
+								Soul_Mysterious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Mysterious Header
+								Soul_Reclusious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Reclusious Header
+								Soul_Sparklious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Sparklious Header
+								Soul_Unitious: Mods. Calamity Souls. Configs. C S Config V104. Headers. Soul_ Unitious Header
+								NewSouls: Mods. Calamity Souls. Configs. C S Config V104. Headers. New Souls Header
+							}
+						}
+					}
+				}
+			}
+		}
+
+		EnchAcidivine: {
+			Label: 圣蚀魔石（新版）
+			Tooltip: 是否启用「圣蚀魔石（新版）」的效果
+		}
+
+		EnchAerospec: {
+			Label: 天蓝魔石（新版）
+			Tooltip: 是否启用「天蓝魔石（新版）」的效果
+		}
+
+		EnchAstral: {
+			Label: 幻星魔石（新版）
+			Tooltip: 是否启用「幻星魔石（新版）」的效果
+		}
+
+		EnchAuric: {
+			Label: 金源魔石（新版）
+			Tooltip: 是否启用「金源魔石（新版）」的效果
+		}
+
+		EnchBloodFlare: {
+			Label: 血炎魔石（新版）
+			Tooltip: 是否启用「血炎魔石（新版）」的效果
+		}
+
+		EnchBrimFlame: {
+			Label: 硫火魔石（新版）
+			Tooltip: 是否启用「硫火魔石（新版）」的效果
+		}
+
+		EnchDaedalus: {
+			Label: 代达罗斯魔石（新版）
+			Tooltip: 是否启用「代达罗斯魔石（新版）」的效果
+		}
+
+		EnchDemonshade: {
+			Label: 魔影魔石（新版）
+			Tooltip: 是否启用「魔影魔石（新版）」的效果
+		}
+
+		EnchDesert: {
+			Label: 沙漠游侠魔石（新版）
+			Tooltip: 是否启用「沙漠游侠魔石（新版）」的效果
+		}
+
+		EnchEmpyrean: {
+			Label: 皇天魔石（新版）
+			Tooltip: 是否启用「皇天魔石（新版）」的效果
+		}
+
+		EnchExo: {
+			Label: 星流魔石（新版）
+			Tooltip: 是否启用「星流魔石（新版）」的效果
+		}
+
+		EnchExtermination: {
+			Label: 绝灭魔石（新版）
+			Tooltip: 是否启用「绝灭魔石（新版）」的效果
+		}
+
+		EnchFathom: {
+			Label: 幻渊鱼群魔石（新版）
+			Tooltip: 是否启用「幻渊鱼群魔石（新版）」的效果
+		}
+
+		EnchFearmonger: {
+			Label: 神惧者魔石（新版）
+			Tooltip: 是否启用「神惧者魔石（新版）」的效果
+		}
+
+		EnchForbidden: {
+			Label: 禁戒魔石（新版）
+			Tooltip: 是否启用「禁戒魔石（新版）」的效果
+		}
+
+		EnchGodslayerAncient: {
+			Label: 远古弑神者魔石（新版）
+			Tooltip: 是否启用「远古弑神者魔石（新版）」的效果
+		}
+
+		EnchGodslayer: {
+			Label: 弑神者魔石（新版）
+			Tooltip: 是否启用「弑神者魔石（新版）」的效果
+		}
+
+		EnchHydrothermic: {
+			Label: 渊泉魔石（新版）
+			Tooltip: 是否启用「渊泉魔石（新版）」的效果
+		}
+
+		EnchLuxAstri: {
+			Label: 星光魔石（新版）
+			Tooltip: 是否启用「星光魔石（新版）」的效果
+		}
+
+		EnchMollusk: {
+			Label: 软壳魔石（新版）
+			Tooltip: 是否启用「软壳魔石（新版）」的效果
+		}
+
+		EnchOmega: {
+			Label: 欧米伽蓝魔石（新版）
+			Tooltip: 是否启用「欧米伽蓝魔石（新版）」的效果
+		}
+
+		EnchPlagueReaper: {
+			Label: 瘟疫收割者魔石（新版）
+			Tooltip: 是否启用「瘟疫收割者魔石（新版）」的效果
+		}
+
+		EnchPlagueBringer: {
+			Label: 瘟疫使者魔石（新版）
+			Tooltip: 是否启用「瘟疫使者魔石（新版）」的效果
+		}
+
+		EnchPrismatic: {
+			Label: 光棱魔石（新版）
+			Tooltip: 是否启用「光棱魔石（新版）」的效果
+		}
+
+		EnchReaver: {
+			Label: 掠夺者魔石（新版）
+			Tooltip: 是否启用「掠夺者魔石（新版）」的效果
+		}
+
+		EnchSilva: {
+			Label: 始源林海魔石（新版）
+			Tooltip: 是否启用「始源林海魔石（新版）」的效果
+		}
+
+		EnchSnowRuffian: {
+			Label: 雪境暴徒魔石（新版）
+			Tooltip: 是否启用「雪境暴徒魔石（新版）」的效果
+		}
+
+		EnchStatigel: {
+			Label: 斯塔提斯魔石（新版）
+			Tooltip: 是否启用「斯塔提斯魔石（新版）」的效果
+		}
+
+		EnchSulphurous: {
+			Label: 硫磺魔石（新版）
+			Tooltip: 是否启用「硫磺魔石（新版）」的效果
+		}
+
+		EnchTarragon: {
+			Label: 龙蒿魔石（新版）
+			Tooltip: 是否启用「龙蒿魔石（新版）」的效果
+		}
+
+		EnchTitan: {
+			Label: 泰坦之心魔石（新版）
+			Tooltip: 是否启用「泰坦之心魔石（新版）」的效果
+		}
+
+		EnchUmbraphile: {
+			Label: 日影魔石（新版）
+			Tooltip: 是否启用「日影魔石（新版）」的效果
+		}
+
+		EnchVictide: {
+			Label: 胜潮魔石（新版）
+			Tooltip: 是否启用「胜潮魔石（新版）」的效果
+		}
+
+		EnchWulfrum: {
+			Label: 钨钢魔石（新版）
+			Tooltip: 是否启用「钨钢魔石（新版）」的效果
+		}
+
+		ForceAnnihilation: {
+			Label: 湮灭之力（新版）
+			Tooltip: 是否启用「湮灭之力（新版）」的效果
+		}
+
+		ForceCreature: {
+			Label: 生灵之力（新版）
+			Tooltip: 是否启用「生灵之力（新版）」的效果
+		}
+
+		ForceRevolution: {
+			Label: 起义之力（新版）
+			Tooltip: 是否启用「起义之力（新版）」的效果
+		}
+
+		ForceTechnical: {
+			Label: 科技之力（新版）
+			Tooltip: 是否启用「科技之力（新版）」的效果
+		}
+
+		ForceTyranny: {
+			Label: 暴政之力（新版）
+			Tooltip: 是否启用「暴政之力（新版）」的效果
+		}
+
+		SoulCommunitious_StressPills: {
+			Label: 压力药丸
+			Tooltip: 是否启用「全能之魂」中该饰品的效果
+		}
+
+		SoulCommunitious_SandCloak: {
+			Label: 沙尘披风
+			Tooltip: 是否启用「全能之魂」中该饰品的效果
+		}
+
+		SoulCommunitious_TheTransformer: {
+			Label: 转换器
+			Tooltip: 是否启用「全能之魂」中该饰品的效果
+		}
+
+		SoulCommunitious_TheBee: {
+			Label: 蜜蜂护符
+			Tooltip: 是否启用「全能之魂」中该饰品的效果
+		}
+
+		SoulCommunitious_DeepDiver: {
+			Label: 深潜者
+			Tooltip: 是否启用「全能之魂」中该饰品的效果
+		}
+
+		SoulCommunitious_BloomStone: {
+			Label: 绽花石
+			Tooltip: 是否启用「全能之魂」中该饰品的效果
+		}
+
+		SoulCommunitious_TheCommunity: {
+			Label: 归一
+			Tooltip: 是否启用「全能之魂」中该饰品的效果
+		}
+
+		SoulCommunitious_Affliction: {
+			Label: 灾劫之尖啸
+			Tooltip: 是否启用「全能之魂」中该饰品的效果
+		}
+
+		SoulCommunitious_YharimsGift: {
+			Label: 寻神者之礼
+			Tooltip: 是否启用「全能之魂」中该饰品的效果
+		}
+
+		SoulDautlessious_HeartofDarkness: {
+			Label: 暗影之心
+			Tooltip: 是否启用「无畏之魂」中该饰品的效果
+		}
+
+		SoulDautlessious_OldDie: {
+			Label: 老死
+			Tooltip: 是否启用「无畏之魂」中该饰品的效果
+		}
+
+		SoulDautlessious_ReaperToothNecklace: {
+			Label: 收割者牙链
+			Tooltip: 是否启用「无畏之魂」中该饰品的效果
+		}
+
+		SoulDautlessious_OldDukeScales: {
+			Label: 老公爵鳞片
+			Tooltip: 是否启用「无畏之魂」中该饰品的效果
+		}
+
+		SoulDautlessious_TheAmalgam: {
+			Label: 融合体
+			Tooltip: 是否启用「无畏之魂」中该饰品的效果
+		}
+
+		SoulDautlessious_ShatteredCommunity: {
+			Label: 破碎共同体
+			Tooltip: 是否启用「无畏之魂」中该饰品的效果
+		}
+
+		SoulHornorious_FungalSymbiote: {
+			Label: 真菌共生体
+			Tooltip: 是否启用「荣光之魂」中该饰品的效果
+		}
+
+		SoulHornorious_ElementalGauntlet: {
+			Label: 元素护手
+			Tooltip: 是否启用「荣光之魂」中该饰品的效果
+		}
+
+		SoulPrecious_DynamoStemCells: {
+			Label: 动力干细胞
+			Tooltip: 是否启用「精准之魂」中该饰品的效果
+		}
+
+		SoulPrecious_DaawnlightSpiritOrigin: {
+			Label: 星辰灵源
+			Tooltip: 是否启用「精准之魂」中该饰品的效果
+		}
+
+		SoulExpeditious_AlluringBait: {
+			Label: 诱饵
+			Tooltip: 是否启用「探寻之魂」中该饰品的效果
+		}
+
+		SoulExpeditious_OceanCrest: {
+			Label: 海洋冠冕
+			Tooltip: 是否启用「探寻之魂」中该饰品的效果
+		}
+
+		SoulExpeditious_EnchantedPearl: {
+			Label: 附魔珍珠
+			Tooltip: 是否启用「探寻之魂」中该饰品的效果
+		}
+
+		SoulExpeditious_ThiefsDime: {
+			Label: 盗贼硬币
+			Tooltip: 是否启用「探寻之魂」中该饰品的效果
+		}
+
+		SoulExpeditious_SupremeBaitTackleBoxFishingStation: {
+			Label: 至尊钓具箱
+			Tooltip: 是否启用「探寻之魂」中该饰品的效果
+		}
+
+		SoulExpeditious_AbyssalDivingSuit: {
+			Label: 深渊潜水服
+			Tooltip: 是否启用「探寻之魂」中该饰品的效果
+		}
+
+		SoulLeaderious_GladiatorsLocket: {
+			Label: 角斗士吊坠
+			Tooltip: 是否启用「先驱之魂」中该饰品的效果
+		}
+
+		SoulLeaderious_FungalClump: {
+			Label: 真菌团
+			Tooltip: 是否启用「先驱之魂」中该饰品的效果
+		}
+
+		SoulLeaderious_HowlsHeart: {
+			Label: 嚎叫之心
+			Tooltip: 是否启用「先驱之魂」中该饰品的效果
+		}
+
+		SoulLeaderious_CryoStone: {
+			Label: 冰晶石
+			Tooltip: 是否启用「先驱之魂」中该饰品的效果
+		}
+
+		SoulLeaderious_HeartoftheElements: {
+			Label: 元素之心
+			Tooltip: 是否启用「先驱之魂」中该饰品的效果
+		}
+
+		SoulLeaderious_MutatedTruffle: {
+			Label: 变异松露
+			Tooltip: 是否启用「先驱之魂」中该饰品的效果
+		}
+
+		SoulLeaderious_Calamity: {
+			Label: 灾厄
+			Tooltip: 是否启用「先驱之魂」中该饰品的效果
+		}
+
+		SoulMenacious_TrinketofChi: {
+			Label: 气之饰品
+			Tooltip: 是否启用「险恶之魂」中该饰品的效果
+		}
+
+		SoulMenacious_FrostFlare: {
+			Label: 霜焰
+			Tooltip: 是否启用「险恶之魂」中该饰品的效果
+		}
+
+		SoulMenacious_LeviathanAmbergris: {
+			Label: 利维坦龙涎香
+			Tooltip: 是否启用「险恶之魂」中该饰品的效果
+		}
+
+		SoulMenacious_HideofAstrumDeus: {
+			Label: 星神之皮
+			Tooltip: 是否启用「险恶之魂」中该饰品的效果
+		}
+
+		SoulMenacious_BlunderBooster: {
+			Label: 爆弹推进器
+			Tooltip: 是否启用「险恶之魂」中该饰品的效果
+		}
+
+		SoulMenacious_NebulousCore: {
+			Label: 星云核心
+			Tooltip: 是否启用「险恶之魂」中该饰品的效果
+		}
+
+		SoulMenacious_ChaliceOfTheBloodGod: {
+			Label: 血神之杯
+			Tooltip: 是否启用「险恶之魂」中该饰品的效果
+		}
+
+		SoulMenacious_DarkSunRing: {
+			Label: 暗日戒指
+			Tooltip: 是否启用「险恶之魂」中该饰品的效果
+		}
+
+		SoulDevotious_Laudanum: {
+			Label: 鸦片酊
+			Tooltip: 是否启用「奉献之魂」中该饰品的效果
+		}
+
+		SoulDevotious_GiantPearl: {
+			Label: 巨型珍珠
+			Tooltip: 是否启用「奉献之魂」中该饰品的效果
+		}
+
+		SoulDevotious_AquaticEmblem: {
+			Label: 水生徽章
+			Tooltip: 是否启用「奉献之魂」中该饰品的效果
+		}
+
+		SoulDevotious_GiantTortoiseShell: {
+			Label: 巨龟壳
+			Tooltip: 是否启用「奉献之魂」中该饰品的效果
+		}
+
+		SoulDevotious_AmbrosialAmpoule: {
+			Label: 仙馔针剂
+			Tooltip: 是否启用「奉献之魂」中该饰品的效果
+		}
+
+		SoulDevotious_Regenerator: {
+			Label: 再生器
+			Tooltip: 是否启用「奉献之魂」中该饰品的效果
+		}
+
+		SoulDevotious_TheCamper: {
+			Label: 露营者
+			Tooltip: ★ 是否启用「奉献之魂」中该饰品的效果（该饰品会让你「不移动时少造成 90% 伤害」，关掉它即可取消这一惩罚）
+		}
+
+		SoulDevotious_BloodflareCore: {
+			Label: 血焰核心
+			Tooltip: 是否启用「奉献之魂」中该饰品的效果
+		}
+
+		SoulDevotious_TheEvolution: {
+			Label: 进化
+			Tooltip: 是否启用「奉献之魂」中该饰品的效果
+		}
+
+		SoulDevotious_RampartofDeities: {
+			Label: 众神壁垒
+			Tooltip: 是否启用「奉献之魂」中该饰品的效果
+		}
+
+		SoulDevotious_TheSponge: {
+			Label: 海绵
+			Tooltip: 是否启用「奉献之魂」中该饰品的效果
+		}
+
+		SoulDevotious_DraedonsHeart: {
+			Label: 德雷顿之心
+			Tooltip: 是否启用「奉献之魂」中该饰品的效果
+		}
+
+		SoulVelocitious_AeroStone: {
+			Label: 风石
+			Tooltip: 是否启用「速度之魂」中该饰品的效果
+		}
+
+		SoulVelocitious_EvasionScarf: {
+			Label: 闪避围巾
+			Tooltip: 是否启用「速度之魂」中该饰品的效果
+		}
+
+		SoulVelocitious_SpectralVeil: {
+			Label: 幽灵面纱
+			Tooltip: 是否启用「速度之魂」中该饰品的效果
+		}
+
+		SoulVelocitious_StatisVoidSash: {
+			Label: 斯塔提斯的虚空饰带
+			Tooltip: 是否启用「速度之魂」中该饰品的效果
+		}
+
+		SoulVelocitious_AsgardianAegis: {
+			Label: 阿斯加德神盾
+			Tooltip: 是否启用「速度之魂」中该饰品的效果
+		}
+
+		SoulMysterious_PermafrostsConcoction: {
+			Label: 永冻药剂
+			Tooltip: 是否启用「神秘之魂」中该饰品的效果
+		}
+
+		SoulMysterious_ChaosStone: {
+			Label: 混沌石
+			Tooltip: 是否启用「神秘之魂」中该饰品的效果
+		}
+
+		SoulMysterious_EtherealTalisman: {
+			Label: 空灵护符
+			Tooltip: 是否启用「神秘之魂」中该饰品的效果
+		}
+
+		SoulReclusious_RottenDogtooth: {
+			Label: 腐坏犬牙
+			Tooltip: 是否启用「隐者之魂」中该饰品的效果
+		}
+
+		SoulReclusious_GloveOfPrecision: {
+			Label: 精准手套
+			Tooltip: 是否启用「隐者之魂」中该饰品的效果
+		}
+
+		SoulReclusious_GloveOfRecklessness: {
+			Label: 莽撞手套
+			Tooltip: 是否启用「隐者之魂」中该饰品的效果
+		}
+
+		SoulReclusious_VampiricTalisman: {
+			Label: 吸血护符
+			Tooltip: 是否启用「隐者之魂」中该饰品的效果
+		}
+
+		SoulReclusious_Nanotech: {
+			Label: 纳米科技
+			Tooltip: 是否启用「隐者之魂」中该饰品的效果
+		}
+
+		SoulReclusious_EclipseMirror: {
+			Label: 日蚀之镜
+			Tooltip: 是否启用「隐者之魂」中该饰品的效果
+		}
+
+		SoulSparklious_ScuttlersJewel: {
+			Label: 浮游者宝石
+			Tooltip: 是否启用「闪烁之魂」中该饰品的效果
+		}
+
+		SoulSparklious_RuinMedallion: {
+			Label: 毁灭勋章
+			Tooltip: 是否启用「闪烁之魂」中该饰品的效果
+		}
+
+		SoulSparklious_AmidiasPendant: {
+			Label: 阿米迪亚斯吊坠
+			Tooltip: 是否启用「闪烁之魂」中该饰品的效果
+		}
+
+		SoulSparklious_CorrosiveSpine: {
+			Label: 腐蚀之脊
+			Tooltip: 是否启用「闪烁之魂」中该饰品的效果
+		}
+
+		SoulSparklious_MomentumCapacitor: {
+			Label: 动量电容
+			Tooltip: 是否启用「闪烁之魂」中该饰品的效果
+		}
+
+		SoulSparklious_EtherealExtorter: {
+			Label: 空灵敲诈者
+			Tooltip: 是否启用「闪烁之魂」中该饰品的效果
+		}
+
+		SoulSparklious_VeneratedLocket: {
+			Label: 崇敬吊坠
+			Tooltip: 是否启用「闪烁之魂」中该饰品的效果
+		}
+
+		SoulSparklious_DragonScales: {
+			Label: 龙鳞
+			Tooltip: 是否启用「闪烁之魂」中该饰品的效果
+		}
+
+		SoulUnitious_PhantomicArtifact: {
+			Label: 幻影神器
+			Tooltip: 是否启用「团结之魂」中该饰品的效果
+		}
+
+		SoulUnitious_Nucleogenesis: {
+			Label: 核起源
+			Tooltip: 是否启用「团结之魂」中该饰品的效果
+		}
+
+		SoulHornorious_YoyoBag: {
+			Label: 悠悠球袋
+			Tooltip: 是否启用「荣光之魂」中该饰品的效果（原版饰品）
+		}
+
+		SoulHornorious_CelestialShell: {
+			Label: 天界壳
+			Tooltip: 是否启用「荣光之魂」中该饰品的效果（原版饰品）
+		}
+
+		SoulMysterious_CelestialCuffs: {
+			Label: 天界手铐
+			Tooltip: 是否启用「神秘之魂」中该饰品的效果（原版饰品）
+		}
+
+		SoulPrecious_Hoverboard: {
+			Label: 悬浮板
+			Tooltip: 是否启用「精准之魂」中该饰品的效果（原版饰品）
+		}
+
+		SoulPrecious_SniperScope: {
+			Label: 狙击镜
+			Tooltip: 是否启用「精准之魂」中该饰品的效果（原版饰品）
+		}
+
+		SoulUnitious_HuntressBuckler: {
+			Label: 女猎人圆盾
+			Tooltip: 是否启用「团结之魂」中该饰品的效果（原版饰品）
+		}
+
+		SoulCalamityV104: {
+			Label: 灾厄之魂（新版）
+			Tooltip: 是否启用「灾厄之魂（新版）」的效果
+		}
+
+		SoulCommunitiousV104: {
+			Label: 全能之魂（新版）
+			Tooltip: 是否启用「全能之魂（新版）」的效果
+		}
+
+		SoulDautlessiousV104: {
+			Label: 无畏之魂（新版）
+			Tooltip: 是否启用「无畏之魂（新版）」的效果
+		}
+
+		SoulDevotiousV104: {
+			Label: 奉献之魂（新版）
+			Tooltip: 是否启用「奉献之魂（新版）」的效果
+		}
+
+		SoulExpeditiousV104: {
+			Label: 探寻之魂（新版）
+			Tooltip: 是否启用「探寻之魂（新版）」的效果
+		}
+
+		SoulHornoriousV104: {
+			Label: 荣光之魂（新版）
+			Tooltip: 是否启用「荣光之魂（新版）」的效果
+		}
+
+		SoulInfinityV104: {
+			Label: 无限之魂（新版）
+			Tooltip: 是否启用「无限之魂（新版）」的效果
+		}
+
+		SoulLeaderiousV104: {
+			Label: 先驱之魂（新版）
+			Tooltip: 是否启用「先驱之魂（新版）」的效果
+		}
+
+		SoulMenaciousV104: {
+			Label: 险恶之魂（新版）
+			Tooltip: 是否启用「险恶之魂（新版）」的效果
+		}
+
+		SoulMysteriousV104: {
+			Label: 神秘之魂（新版）
+			Tooltip: 是否启用「神秘之魂（新版）」的效果
+		}
+
+		SoulPreciousV104: {
+			Label: 精准之魂（新版）
+			Tooltip: 是否启用「精准之魂（新版）」的效果
+		}
+
+		SoulReclusiousV104: {
+			Label: 隐者之魂（新版）
+			Tooltip: 是否启用「隐者之魂（新版）」的效果
+		}
+
+		SoulSparkliousV104: {
+			Label: 闪烁之魂（新版）
+			Tooltip: 是否启用「闪烁之魂（新版）」的效果
+		}
+
+		SoulUnitiousV104: {
+			Label: 团结之魂（新版）
+			Tooltip: 是否启用「团结之魂（新版）」的效果
+		}
+
+		SoulUnlimityV104: {
+			Label: 超限之魂（新版）
+			Tooltip: 是否启用「超限之魂（新版）」的效果
+		}
+
+		SoulVelocitiousV104: {
+			Label: 速度之魂（新版）
+			Tooltip: 是否启用「速度之魂（新版）」的效果
+		}
+	}
+
+	CSConfig: {
+		DisplayName: C S Config
+
+		Headers: {
+			魔石（Enchantment）: 魔石（ Enchantment） Header
+			之力（Force）: 之力（ Force） Header
+			咒（Spell）: 咒（ Spell） Header
+		}
+
+		EnchAero: {
+			Label: 天蓝魔石
+			Tooltip: 是否启用「天蓝魔石」的效果
+		}
+
+		EnchAstral: {
+			Label: 幻星魔石
+			Tooltip: 是否启用「幻星魔石」的效果
+		}
+
+		EnchAuric: {
+			Label: 金源魔石
+			Tooltip: 是否启用「金源魔石」的效果
+		}
+
+		EnchBlood: {
+			Label: 血炎魔石
+			Tooltip: 是否启用「血炎魔石」的效果
+		}
+
+		EnchBrim: {
+			Label: 硫火魔石
+			Tooltip: 是否启用「硫火魔石」的效果
+		}
+
+		EnchDaedalus: {
+			Label: 代达罗斯魔石
+			Tooltip: 是否启用「代达罗斯魔石」的效果
+		}
+
+		EnchDemonshade: {
+			Label: 魔影魔石
+			Tooltip: 是否启用「魔影魔石」的效果
+		}
+
+		EnchDesert: {
+			Label: 沙漠游侠魔石
+			Tooltip: 是否启用「沙漠游侠魔石」的效果
+		}
+
+		EnchEmpyrean: {
+			Label: 皇天魔石
+			Tooltip: 是否启用「皇天魔石」的效果
+		}
+
+		EnchFathom: {
+			Label: 幻渊鱼群魔石
+			Tooltip: 是否启用「幻渊鱼群魔石」的效果
+		}
+
+		EnchFearmonger: {
+			Label: 神惧者魔石
+			Tooltip: 是否启用「神惧者魔石」的效果
+		}
+
+		EnchGodslayer: {
+			Label: 弑神者魔石
+			Tooltip: 是否启用「弑神者魔石」的效果
+		}
+
+		EnchGodslayerAncient: {
+			Label: 远古弑神者魔石
+			Tooltip: 是否启用「远古弑神者魔石」的效果
+		}
+
+		EnchHydrothermic: {
+			Label: 渊泉魔石
+			Tooltip: 是否启用「渊泉魔石」的效果
+		}
+
+		EnchMollusk: {
+			Label: 软壳魔石
+			Tooltip: 是否启用「软壳魔石」的效果
+		}
+
+		EnchOmega: {
+			Label: 欧米伽蓝魔石
+			Tooltip: 是否启用「欧米伽蓝魔石」的效果
+		}
+
+		EnchPlagueBringer: {
+			Label: 瘟疫使者魔石
+			Tooltip: 是否启用「瘟疫使者魔石」的效果
+		}
+
+		EnchPlagueReaper: {
+			Label: 瘟疫收割者魔石
+			Tooltip: 是否启用「瘟疫收割者魔石」的效果
+		}
+
+		EnchPrismatic: {
+			Label: 光棱魔石
+			Tooltip: 是否启用「光棱魔石」的效果
+		}
+
+		EnchReaver: {
+			Label: 掠夺者魔石
+			Tooltip: 是否启用「掠夺者魔石」的效果
+		}
+
+		EnchSilva: {
+			Label: 始源林海魔石
+			Tooltip: 是否启用「始源林海魔石」的效果
+		}
+
+		EnchSnowRuffian: {
+			Label: 雪境暴徒魔石
+			Tooltip: 是否启用「雪境暴徒魔石」的效果
+		}
+
+		EnchStatigel: {
+			Label: 斯塔提斯魔石
+			Tooltip: 是否启用「斯塔提斯魔石」的效果
+		}
+
+		EnchSulphurous: {
+			Label: 硫磺海魔石
+			Tooltip: 是否启用「硫磺海魔石」的效果
+		}
+
+		EnchTarragon: {
+			Label: 龙蒿魔石
+			Tooltip: 是否启用「龙蒿魔石」的效果
+		}
+
+		EnchTitan: {
+			Label: 泰坦之心魔石
+			Tooltip: 是否启用「泰坦之心魔石」的效果
+		}
+
+		EnchUmbraphile: {
+			Label: 日影魔石
+			Tooltip: 是否启用「日影魔石」的效果
+		}
+
+		EnchVictide: {
+			Label: 胜潮魔石
+			Tooltip: 是否启用「胜潮魔石」的效果
+		}
+
+		EnchWulfrum: {
+			Label: 钨钢魔石
+			Tooltip: 是否启用「钨钢魔石」的效果
+		}
+
+		ForceAnnihilation: {
+			Label: 湮灭之力
+			Tooltip: 是否启用「湮灭之力」的效果
+		}
+
+		ForceCreature: {
+			Label: 生灵之力
+			Tooltip: 是否启用「生灵之力」的效果
+		}
+
+		ForceRevolution: {
+			Label: 起义之力
+			Tooltip: 是否启用「起义之力」的效果
+		}
+
+		ForceTechnical: {
+			Label: 科技之力
+			Tooltip: 是否启用「科技之力」的效果
+		}
+
+		ForceTyranny: {
+			Label: 暴政之力
+			Tooltip: 是否启用「暴政之力」的效果
+		}
+
+		SpellAquatic: {
+			Label: 渊洋之咒
+			Tooltip: 是否启用「渊洋之咒」的效果
+		}
+
+		SpellBetrayal: {
+			Label: 背叛之咒
+			Tooltip: 是否启用「背叛之咒」的效果
+		}
+
+		SpellDespair: {
+			Label: 绝望之咒
+			Tooltip: 是否启用「绝望之咒」的效果
+		}
+
+		SpellEleum: {
+			Label: 冰川之咒
+			Tooltip: 是否启用「冰川之咒」的效果
+		}
+
+		SpellGlobe: {
+			Label: 寰球之咒
+			Tooltip: 是否启用「寰球之咒」的效果
+		}
+
+		SpellHeavenshade: {
+			Label: 天影之咒
+			Tooltip: 是否启用「天影之咒」的效果
+		}
+
+		SpellOasis: {
+			Label: 绿洲之咒
+			Tooltip: 是否启用「绿洲之咒」的效果
+		}
+
+		SpellPlague: {
+			Label: 瘟疫之咒
+			Tooltip: 是否启用「瘟疫之咒」的效果
+		}
+
+		SpellStarlight: {
+			Label: 星光之咒
+			Tooltip: 是否启用「星光之咒」的效果
+		}
+	}
+
+	CSConfigMisc: {
+		DisplayName: C S Config Misc
+
+		DisableSoulSpeed: {
+			Label: 禁用灾厄之魂的移速加成
+			Tooltip:
+				'''
+				开启后，本模组（魔石 / 之力 / 咒 / 魂）提供的移动速度加成全部失效。
+				用于最终形态移速过快、难以控制的情况。其它效果不受影响。
+				'''
+		}
+
+		AllowMixedSouls: {
+			Label: 允许新旧魂同时装备
+			Tooltip:
+				'''
+				默认关闭。关闭时：只限制最顶层的「魂」——旧版之魂与新版的魂不能同时佩戴；
+				魔石、之力与饰品可以随意混搭，不受影响。
+				'''
+		}
+	}
+}

@@ -1,0 +1,27 @@
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.Localization;
+
+namespace CalamitySouls.Buffs
+{
+    public class AstralDivision : ModBuff
+    {
+        public override void SetStaticDefaults()
+        {
+            Main.debuff[Type] = true;
+            Main.pvpBuff[Type] = true;
+            Main.buffNoSave[Type] = true;
+            Main.buffNoTimeDisplay[Type] = false;
+        }
+    }
+    public class AstralImmunity : ModBuff
+    {
+        public override void SetStaticDefaults()
+        {
+            Main.debuff[Type] = true;
+            Main.pvpBuff[Type] = true;
+            Main.buffNoSave[Type] = true;
+            Main.buffNoTimeDisplay[Type] = false;
+        }
+    }
+}
